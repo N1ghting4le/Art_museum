@@ -1,0 +1,25 @@
+.home_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 100px;
+
+  &__h1 {
+    font-family: 'Lexend Deca', serif;
+    font-weight: bold;
+    font-size: 58px;
+    max-width: 684px;
+    text-align: center;
+    text-transform: capitalize;
+  }
+}
+
+@media (max-width: 420px) {
+  .home_page {
+    padding-block: 50px;
+
+    &__h1 {
+      font-size: 48px;
+    }
+  }
+}
