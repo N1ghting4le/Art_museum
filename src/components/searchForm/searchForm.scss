@@ -1,0 +1,40 @@
+.search_form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(500px, 80vw);
+
+  &__input {
+    padding: 1rem;
+    width: 100%;
+    background-color: rgba(57, 57, 57, 0.05);
+    border-radius: 1rem;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(57, 57, 57, 0.5);
+      font-size: 14px;
+    }
+
+    &.input_error {
+      border: 1px solid red;
+    }
+  }
+
+  &__error {
+    margin-top: 5px;
+    color: red;
+  }
+
+  &__years_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 420px) {
+  .search_form__years_wrapper {
+    gap: 20px;
+  }
+}

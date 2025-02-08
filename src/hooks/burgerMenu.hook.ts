@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 const useBurgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLButtonElement | null>(null);
+  const ref = useRef<HTMLElement | null>(null);
 
   const toggleMenu = () => setIsOpen((isOpen) => !isOpen);
 

@@ -3,6 +3,8 @@ import Header from './components/header/Header';
 import HomePage from './pages/homePage/HomePage';
 import './App.scss';
 
+export const baseUrl = 'https://api.artic.edu';
+
 function App() {
   return (
     <BrowserRouter>

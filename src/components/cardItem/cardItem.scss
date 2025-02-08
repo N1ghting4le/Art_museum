@@ -1,0 +1,28 @@
+.cards_list_item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__image {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+  }
+
+  &__info_wrapper {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(50%);
+    font-family: 'Lexend Deca', serif;
+    width: 90%;
+    padding: 32px 24px;
+    z-index: 1;
+    background-color: #fff;
+    border: 1px solid #f0f1f1;
+  }
+
+  &__title {
+    font-size: 17px;
+  }
+}

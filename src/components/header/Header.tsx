@@ -12,8 +12,8 @@ const Header = () => {
   return (
     <header className="header" ref={ref}>
       <Logo className="header__logo" />
-      <nav className={`header__nav`}>
-        <div className={`header__nav__wrapper ${isOpen ? 'active' : null}`}>
+      <nav className="header__nav">
+        <div className={`header__nav__wrapper ${isOpen ? 'active' : ''}`}>
           <Link to="/" className="header__link">
             <Home />
             Home
