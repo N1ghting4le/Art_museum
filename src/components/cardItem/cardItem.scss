@@ -8,21 +8,42 @@
     width: 300px;
     height: 400px;
     object-fit: cover;
+    object-position: top;
   }
 
   &__info_wrapper {
     position: absolute;
     bottom: 0;
     transform: translateY(50%);
-    font-family: 'Lexend Deca', serif;
     width: 90%;
-    padding: 32px 24px;
+    padding: 16px 12px;
     z-index: 1;
     background-color: #fff;
     border: 1px solid #f0f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & p {
+      font-family: 'Lexend Deca', serif;
+      line-height: 26px;
+    }
   }
 
   &__title {
     font-size: 17px;
+    color: #393939;
+    font-weight: 700;
+  }
+
+  &__artist {
+    font-size: 15px;
+    color: #e0a449;
+  }
+
+  &__year {
+    margin-top: 5px;
+    color: #393939;
+    font-weight: 500;
   }
 }

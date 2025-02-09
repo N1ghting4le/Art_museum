@@ -2,14 +2,12 @@ import { useState } from 'react';
 
 const useQuery = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const query = <T>(url: string): Promise<T> => {
     return new Promise(async (resolve, reject) => {
       try {
         setIsError(false);
-        setIsSuccess(false);
         setIsLoading(true);
 
         const response = await fetch(url);
@@ -22,7 +20,6 @@ const useQuery = () => {
 
         const data = (await response.json()) as T;
 
-        setIsSuccess(true);
         resolve(data);
       } catch (e) {
         if (e instanceof Error) {
@@ -37,7 +34,7 @@ const useQuery = () => {
     });
   };
 
-  return { isLoading, isSuccess, isError, query };
+  return { isLoading, isError, query };
 };
 
 export default useQuery;

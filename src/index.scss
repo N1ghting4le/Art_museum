@@ -12,3 +12,20 @@
 body {
   background-color: #fafafa;
 }
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.hidden {
+  visibility: hidden;
+}

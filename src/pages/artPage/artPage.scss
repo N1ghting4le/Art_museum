@@ -1,0 +1,62 @@
+.art_page {
+  display: grid;
+  place-items: center;
+  padding-block: 100px;
+  color: #393939;
+
+  & p {
+    font-family: 'Lexend Deca', serif;
+  }
+
+  &__wrapper {
+    max-width: 70vw;
+    display: flex;
+    gap: 50px;
+  }
+
+  &__img_wrapper {
+    position: relative;
+  }
+
+  &__img {
+    max-width: min(500px, 90vw);
+    max-height: 570px;
+    object-fit: contain;
+  }
+
+  &__info_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  &__title {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  &__artist {
+    font-size: 24px;
+    color: #e0a449;
+  }
+
+  &__year {
+    margin-top: 10px;
+    font-weight: 700;
+  }
+
+  &__add_info {
+    margin-top: 15px;
+    font-size: 16px;
+
+    & span {
+      color: #e0a449;
+    }
+  }
+}

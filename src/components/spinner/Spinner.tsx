@@ -5,6 +5,7 @@ const Spinner = () => (
     height="200px"
     viewBox="0 0 100 100"
     preserveAspectRatio="xMidYMid"
+    style={{ marginBlock: '50px' }}
   >
     <g transform="translate(80,50)">
       <g transform="rotate(0)">

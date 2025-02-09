@@ -1,15 +1,12 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormikContext, Formik, Form } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
+import { useSearchFormContext, useCardsListContext } from '../../App';
 import useDebounce from '../../hooks/debounce.hook';
 import Schema from './schema';
 import './searchForm.scss';
 
-type Props = {
-  setQueryStr: Dispatch<SetStateAction<string>>;
-};
-
-type Fields = {
+export type Fields = {
   title: string;
   artist_title: string;
   place_of_origin: string;
@@ -18,13 +15,23 @@ type Fields = {
   end_year: string;
 };
 
-const AutoSubmitData = ({ setQueryStr }: Props) => {
-  const { values, isValid, dirty } = useFormikContext<Fields>();
+type Props = {
+  setQueryStr: Dispatch<SetStateAction<string>>;
+  setFields: Dispatch<SetStateAction<Fields>>;
+};
+
+const AutoSubmitData = ({ setQueryStr, setFields }: Props) => {
+  const { values, isValid } = useFormikContext<Fields>();
+  const [isInitial, setIsInitial] = useState(true);
 
   useEffect(() => {
-    if (!dirty) {
+    setIsInitial(false);
+  }, []);
+
+  useEffect(() => {
+    if (Object.values(values).every((val) => !val)) {
       setQueryStr('');
-    } else if (isValid) {
+    } else if (isValid && !isInitial) {
       const { start_year, end_year, ...fields } = values;
       const entries = Object.entries(fields).filter((item) => item[1]);
       let index = entries.length;
@@ -43,32 +50,29 @@ const AutoSubmitData = ({ setQueryStr }: Props) => {
             : '')
       );
     }
+
+    setFields(values);
   }, [values]);
 
   return null;
 };
 
-const SearchForm = ({ setQueryStr }: Props) => {
-  const initialValues: Fields = {
-    title: '',
-    artist_title: '',
-    place_of_origin: '',
-    style_title: '',
-    start_year: '',
-    end_year: '',
-  };
+const SearchForm = () => {
+  const { fields, setFields } = useSearchFormContext();
+  const { setQueryStr } = useCardsListContext();
   const debounce = useDebounce();
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={fields}
       validationSchema={toFormikValidationSchema(Schema)}
+      validateOnMount
       onSubmit={(values, { setSubmitting }) => {
         console.log(values);
         setSubmitting(false);
       }}
     >
-      {({ handleChange, handleBlur, errors }) => {
+      {({ handleChange, handleBlur, errors, initialValues }) => {
         const debouncedChangeHandler = debounce(handleChange, 500);
 
         return (
@@ -80,6 +84,7 @@ const SearchForm = ({ setQueryStr }: Props) => {
                 onBlur={handleBlur}
                 name="title"
                 placeholder="Enter art title..."
+                defaultValue={initialValues.title}
               />
               {errors.title && (
                 <p className="search_form__error">{errors.title}</p>
@@ -92,6 +97,7 @@ const SearchForm = ({ setQueryStr }: Props) => {
                 onBlur={handleBlur}
                 name="artist_title"
                 placeholder="Enter artist..."
+                defaultValue={initialValues.artist_title}
               />
               {errors.artist_title && (
                 <p className="search_form__error">{errors.artist_title}</p>
@@ -104,6 +110,7 @@ const SearchForm = ({ setQueryStr }: Props) => {
                 onBlur={handleBlur}
                 name="place_of_origin"
                 placeholder="Enter place of origin..."
+                defaultValue={initialValues.place_of_origin}
               />
               {errors.place_of_origin && (
                 <p className="search_form__error">{errors.place_of_origin}</p>
@@ -116,6 +123,7 @@ const SearchForm = ({ setQueryStr }: Props) => {
                 onBlur={handleBlur}
                 name="style_title"
                 placeholder="Enter style..."
+                defaultValue={initialValues.style_title}
               />
               {errors.style_title && (
                 <p className="search_form__error">{errors.style_title}</p>
@@ -130,6 +138,7 @@ const SearchForm = ({ setQueryStr }: Props) => {
                   onBlur={handleBlur}
                   name="start_year"
                   placeholder="From"
+                  defaultValue={initialValues.start_year}
                 />
                 <input
                   className={`search_form__input ${errors.end_year ? 'input_error' : ''}`}
@@ -137,6 +146,7 @@ const SearchForm = ({ setQueryStr }: Props) => {
                   onBlur={handleBlur}
                   name="end_year"
                   placeholder="To"
+                  defaultValue={initialValues.end_year}
                 />
               </div>
               {errors.start_year && (
@@ -146,7 +156,7 @@ const SearchForm = ({ setQueryStr }: Props) => {
                 <p className="search_form__error">{errors.end_year}</p>
               )}
             </div>
-            <AutoSubmitData setQueryStr={setQueryStr} />
+            <AutoSubmitData setQueryStr={setQueryStr} setFields={setFields} />
           </Form>
         );
       }}

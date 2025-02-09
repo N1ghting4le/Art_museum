@@ -1,0 +1,13 @@
+.bookmark_btn {
+  background-color: #f9f9f9;
+  width: 59px;
+  height: 59px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.2s ease-in-out;
+
+  &.favorite {
+    background-color: rgba(251, 215, 178, 0.3);
+  }
+}

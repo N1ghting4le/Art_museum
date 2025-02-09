@@ -12,12 +12,16 @@
     max-width: 684px;
     text-align: center;
     text-transform: capitalize;
+
+    & span {
+      color: #f17900;
+    }
   }
 }
 
 @media (max-width: 420px) {
   .home_page {
-    padding-block: 50px 25px;
+    padding-block: 50px;
     gap: 30px;
 
     &__h1 {
