@@ -78,7 +78,7 @@ function App() {
           </Routes>
         </CardsListContext.Provider>
       </SearchFormContext.Provider>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
   );
 }

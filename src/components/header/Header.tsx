@@ -18,7 +18,11 @@ const Header = () => {
             <Home />
             Home
           </Link>
-          <Link to="/favorites" className="header__link" onTouchStart={toggleMenu}>
+          <Link
+            to="/favorites"
+            className="header__link"
+            onTouchStart={toggleMenu}
+          >
             <Bookmark />
             Favorites
           </Link>

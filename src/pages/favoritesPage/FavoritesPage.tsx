@@ -6,19 +6,19 @@ import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
 import './favoritesPage.scss';
 
 const FavoritesPage = () => {
-  const [favorites, setFavorites] = useState<ShowCard[]>(JSON.parse(
-    sessionStorage.getItem('favorites') || '[]'
-  ));
+  const [favorites, setFavorites] = useState<ShowCard[]>(
+    JSON.parse(sessionStorage.getItem('favorites') || '[]')
+  );
   const baseSrc = sessionStorage.getItem('baseSrc');
 
   const deleteFromFavorites = (e: MouseEvent, id: number) => {
     e.preventDefault();
 
-    const updatedFavorites = favorites.filter(item => item.id !== id);
+    const updatedFavorites = favorites.filter((item) => item.id !== id);
 
     setFavorites(updatedFavorites);
     sessionStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  }
+  };
 
   return (
     <main className="favorites_page">
@@ -54,7 +54,10 @@ const FavoritesPage = () => {
                       <p className="cards_list_item__artist">{artist_title}</p>
                       <p className="cards_list_item__year">{date_end}</p>
                     </div>
-                    <BookmarkBtn style={{ marginLeft: 'auto' }} onClick={(e) => deleteFromFavorites(e, id)}/>
+                    <BookmarkBtn
+                      style={{ marginLeft: 'auto' }}
+                      onClick={(e) => deleteFromFavorites(e, id)}
+                    />
                   </Link>
                 </li>
               );

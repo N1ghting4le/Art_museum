@@ -1,5 +1,11 @@
 import { fieldsStr } from '../cardsList/CardsList';
-import { Dispatch, SetStateAction, useEffect, useState, MouseEvent } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  MouseEvent,
+} from 'react';
 import { SearchCard, ShowCard, Cards } from '../cardsList/CardsList';
 import { Link } from 'react-router-dom';
 import useQuery from 'hooks/query.hook';

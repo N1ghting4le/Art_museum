@@ -13,7 +13,7 @@ function* getSequence(from: number, to: number) {
   for (let i = from; i <= to; i++) {
     yield i;
   }
-};
+}
 
 const Pagination = ({ currPage, setCurrPage, amountOfPages }: Props) => {
   const getPageNumbers = () => {
