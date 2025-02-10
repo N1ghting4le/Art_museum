@@ -26,6 +26,7 @@
     font-family: 'Lexend Deca', serif;
     font-weight: 400;
     font-size: 32px;
+    text-align: center;
   }
 
   &__content_wrapper {
@@ -70,5 +71,24 @@
     height: 80px;
     object-fit: cover;
     object-position: top;
+  }
+}
+
+@media (max-width: 420px) {
+  .favorites_page {
+    padding-block: 50px;
+    gap: 50px;
+
+    &__h1 {
+      font-size: 48px;
+    }
+
+    &__h2 {
+      font-size: 24px;
+    }
+
+    &__card {
+      height: auto;
+    }
   }
 }

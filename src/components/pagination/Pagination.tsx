@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import RightArrow from '../../assets/right-arrow.svg?react';
-import LeftArrow from '../../assets/left-arrow.svg?react';
+import RightArrow from 'assets/right-arrow.svg?react';
+import LeftArrow from 'assets/left-arrow.svg?react';
 import './pagination.scss';
 
 type Props = {
@@ -9,26 +9,22 @@ type Props = {
   amountOfPages: number;
 };
 
-const getArr = (from: number, to: number) => {
-  const arr = [];
-
+function* getSequence(from: number, to: number) {
   for (let i = from; i <= to; i++) {
-    arr.push(i);
+    yield i;
   }
-
-  return arr;
 };
 
 const Pagination = ({ currPage, setCurrPage, amountOfPages }: Props) => {
   const getPageNumbers = () => {
     if (amountOfPages <= 4) {
-      return getArr(1, amountOfPages);
+      return getSequence(1, amountOfPages);
     } else if (currPage <= 2) {
-      return getArr(1, 4);
+      return getSequence(1, 4);
     } else if (amountOfPages - currPage <= 1) {
-      return getArr(amountOfPages - 3, amountOfPages);
+      return getSequence(amountOfPages - 3, amountOfPages);
     } else {
-      return getArr(currPage - 1, currPage + 2);
+      return getSequence(currPage - 1, currPage + 2);
     }
   };
 
@@ -41,7 +37,7 @@ const Pagination = ({ currPage, setCurrPage, amountOfPages }: Props) => {
         <LeftArrow width={20} height={20} />
       </button>
       <ul className="pagination__items_list">
-        {getPageNumbers().map((num) => (
+        {[...getPageNumbers()].map((num) => (
           <li
             key={num}
             className={`pagination__page_item ${currPage === num ? 'active' : ''}`}

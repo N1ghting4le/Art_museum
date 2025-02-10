@@ -59,4 +59,20 @@
       color: #e0a449;
     }
   }
+
+  @media (max-width: 420px) {
+    & {
+      padding-block: 50px;
+    }
+
+    &__wrapper {
+      max-width: 90vw;
+      flex-direction: column;
+    }
+
+    &__info_wrapper {
+      justify-content: flex-start;
+      gap: 30px;
+    }
+  }
 }

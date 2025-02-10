@@ -6,12 +6,13 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { Fields } from './components/searchForm/SearchForm';
-import { Cards } from './components/cardsList/CardsList';
-import Header from './components/header/Header';
-import HomePage from './pages/homePage/HomePage';
-import FavoritesPage from './pages/favoritesPage/FavoritesPage';
-import ArtPage from './pages/artPage/ArtPage';
+import { Fields } from 'components/searchForm/SearchForm';
+import { Cards } from 'components/cardsList/CardsList';
+import Header from 'components/header/Header';
+import HomePage from 'pages/homePage/HomePage';
+import FavoritesPage from 'pages/favoritesPage/FavoritesPage';
+import ArtPage from 'pages/artPage/ArtPage';
+import Footer from 'components/footer/Footer';
 import './App.scss';
 
 type SearchFormContextType = {
@@ -77,6 +78,7 @@ function App() {
           </Routes>
         </CardsListContext.Provider>
       </SearchFormContext.Provider>
+      <Footer/>
     </BrowserRouter>
   );
 }

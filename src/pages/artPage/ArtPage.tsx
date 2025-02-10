@@ -1,10 +1,10 @@
-import { baseUrl } from '../../App';
-import { fieldsStr, ShowCard } from '../../components/cardsList/CardsList';
+import { baseUrl } from 'src/App';
+import { fieldsStr, ShowCard } from 'components/cardsList/CardsList';
 import { useParams } from 'react-router';
 import { useState, useEffect } from 'react';
-import useQuery from '../../hooks/query.hook';
-import Spinner from '../../components/spinner/Spinner';
-import BookmarkBtn from '../../components/bookmarkBtn/BookmarkBtn';
+import useQuery from 'hooks/query.hook';
+import Spinner from 'components/spinner/Spinner';
+import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
 import './artPage.scss';
 
 const params = [
@@ -15,7 +15,7 @@ const params = [
 ] as const;
 
 type FullInfo = ShowCard & {
-  [val in (typeof params)[number]]: string;
+  [val in (typeof params)[number]]?: string;
 };
 
 const ArtPage = () => {
@@ -69,6 +69,7 @@ const ArtPage = () => {
           dimensions,
           credit_line,
         } = info;
+        const noInfo = 'No info';
 
         return (
           <div className="art_page__wrapper">
@@ -93,16 +94,16 @@ const ArtPage = () => {
               <div className="art_page__add_info_wrapper">
                 <p className="art_page__title">Overview</p>
                 <p className="art_page__add_info">
-                  <span>Style:</span> {style_title}
+                  <span>Style:</span> {style_title || noInfo}
                 </p>
                 <p className="art_page__add_info">
-                  <span>Place of origin:</span> {place_of_origin}
+                  <span>Place of origin:</span> {place_of_origin || noInfo}
                 </p>
                 <p className="art_page__add_info">
-                  <span>Dimensions:</span> {dimensions}
+                  <span>Dimensions:</span> {dimensions || noInfo}
                 </p>
                 <p className="art_page__add_info">
-                  <span>Credit line:</span> {credit_line}
+                  <span>Credit line:</span> {credit_line || noInfo}
                 </p>
               </div>
             </div>

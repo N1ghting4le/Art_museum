@@ -1,5 +1,5 @@
-import SearchForm from '../../components/searchForm/SearchForm';
-import CardsList from '../../components/cardsList/CardsList';
+import SearchForm from 'components/searchForm/SearchForm';
+import CardsList from 'components/cardsList/CardsList';
 import './homePage.scss';
 
 const HomePage = () => {

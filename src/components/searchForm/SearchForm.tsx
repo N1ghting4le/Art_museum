@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useFormikContext, Formik, Form } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import { useSearchFormContext, useCardsListContext } from '../../App';
-import useDebounce from '../../hooks/debounce.hook';
+import { useSearchFormContext, useCardsListContext } from 'src/App';
+import useDebounce from 'hooks/debounce.hook';
 import Schema from './schema';
 import './searchForm.scss';
 

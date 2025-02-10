@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
-import Bookmark from '../../assets/bookmark.svg?react';
+import Bookmark from 'assets/bookmark.svg?react';
 import './bookmarkBtn.scss';
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & { isFavorite?: boolean };

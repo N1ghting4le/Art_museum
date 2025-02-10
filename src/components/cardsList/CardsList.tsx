@@ -1,6 +1,6 @@
-import { baseUrl, useCardsListContext } from '../../App';
+import { baseUrl, useCardsListContext } from 'src/App';
 import { useState, useEffect } from 'react';
-import useQuery from '../../hooks/query.hook';
+import useQuery from 'hooks/query.hook';
 import Spinner from '../spinner/Spinner';
 import CardItem from '../cardItem/CardItem';
 import SortMenu from '../sortMenu/SortMenu';

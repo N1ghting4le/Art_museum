@@ -1,0 +1,25 @@
+.footer {
+  background: #fff;
+  padding: 25px 256px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 420px) {
+  $logoHeight: 42px;
+
+  .footer {
+    padding: 15px 32px;
+
+    &__logo {
+      width: 137px;
+      height: $logoHeight;
+    }
+
+    &__modsen_logo {
+      width: 120px;
+      height: $logoHeight;
+    }
+  }
+}

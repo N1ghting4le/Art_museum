@@ -1,8 +1,8 @@
 import { fieldsStr } from '../cardsList/CardsList';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState, MouseEvent } from 'react';
 import { SearchCard, ShowCard, Cards } from '../cardsList/CardsList';
 import { Link } from 'react-router-dom';
-import useQuery from '../../hooks/query.hook';
+import useQuery from 'hooks/query.hook';
 import Spinner from '../spinner/Spinner';
 import BookmarkBtn from '../bookmarkBtn/BookmarkBtn';
 import './cardItem.scss';
@@ -37,7 +37,9 @@ const CardItem = ({
     }
   }, [card]);
 
-  const toggleIsFavorite = () => {
+  const toggleIsFavorite = (e: MouseEvent) => {
+    e.preventDefault();
+
     if (isFavorite) {
       setIsFavorite(false);
       setFavorites((favorites) =>
@@ -50,7 +52,7 @@ const CardItem = ({
   };
 
   return (
-    <li className="cards_list_item">
+    <li>
       {(() => {
         if (isLoading || !('image_id' in card)) return <Spinner />;
         if (isError) return <p>Unable to load art</p>;
@@ -58,14 +60,12 @@ const CardItem = ({
         const { id, image_id, title, artist_title, date_end } = card;
 
         return (
-          <>
-            <Link to={`/${id}`}>
-              <img
-                src={`${baseSrc}/${image_id}/full/843,/0/default.jpg`}
-                alt={title}
-                className="cards_list_item__image"
-              />
-            </Link>
+          <Link to={`/${id}`} className="cards_list_item">
+            <img
+              src={`${baseSrc}/${image_id}/full/843,/0/default.jpg`}
+              alt={title}
+              className="cards_list_item__image"
+            />
             <div className="cards_list_item__info_wrapper">
               <div>
                 <p className="cards_list_item__title">
@@ -78,7 +78,7 @@ const CardItem = ({
               </div>
               <BookmarkBtn isFavorite={isFavorite} onClick={toggleIsFavorite} />
             </div>
-          </>
+          </Link>
         );
       })()}
     </li>
