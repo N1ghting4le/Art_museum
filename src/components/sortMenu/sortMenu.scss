@@ -11,24 +11,25 @@
     width: 70px;
     text-align: center;
     background-color: #484848;
-    border: none;
+    border: 1px solid;
     border-radius: 5px;
     font-size: 16px;
     color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: border-color 0.2s ease;
     position: relative;
 
     &.active {
-      border-radius: 5px 5px 0 0;
+      border-color: $lightOrange;
     }
   }
 
   &__params_list {
-    display: none;
+    transform: scaleY(0);
+    transform-origin: top;
     font-size: 16px;
-    border-radius: 0 0 5px 5px;
-    border-top: 1px solid $lightOrange;
+    border-radius: 5px;
+    border: 1px solid $lightOrange;
     background-color: #484848;
     color: #fff;
     cursor: pointer;
@@ -38,9 +39,10 @@
     top: 100%;
     overflow: hidden;
     z-index: 1;
+    transition: transform 0.2s ease;
 
     &.active {
-      display: block;
+      transform: scaleY(1);
     }
   }
 
