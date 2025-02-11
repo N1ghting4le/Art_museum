@@ -1,3 +1,5 @@
+@use '../../index.scss' as *;
+
 $background: linear-gradient(90deg, #343333 17%, #484848 59%, #282828 99%);
 
 .header {
@@ -16,7 +18,7 @@ $background: linear-gradient(90deg, #343333 17%, #484848 59%, #282828 99%);
   }
 
   &__link {
-    color: white;
+    color: #fff;
     text-decoration: none;
     font-size: 16px;
     display: flex;
@@ -27,59 +29,59 @@ $background: linear-gradient(90deg, #343333 17%, #484848 59%, #282828 99%);
   &__button {
     display: none;
   }
-}
 
-@media (max-width: 420px) {
-  $logoHeight: 42px;
+  @media (max-width: 420px) {
+    $logoHeight: 42px;
 
-  .header {
-    padding: 15px 32px;
+    & {
+      padding: 15px 32px;
 
-    &::before {
-      content: '';
-      z-index: 0;
-      background: $background;
-      display: block;
-      position: absolute;
-      inset: 0;
-    }
-
-    &__logo {
-      width: 137px;
-      height: $logoHeight;
-      z-index: 1;
-    }
-
-    &__button {
-      display: block;
-      z-index: 1;
-      background-color: transparent;
-      height: $logoHeight;
-    }
-
-    &__nav__wrapper {
-      position: absolute;
-      background: $background;
-      left: 0;
-      right: 0;
-      top: 100%;
-      gap: 20px;
-      flex-direction: column;
-      align-items: center;
-      padding-block: 20px;
-      border-top: 1px solid #e0a449;
-      z-index: -1;
-      transform: translateY(-100%);
-      transition: transform 0.2s ease-in-out;
-
-      &.active {
-        transform: translateY(0);
+      &::before {
+        content: '';
+        z-index: 0;
+        background: $background;
+        display: block;
+        position: absolute;
+        inset: 0;
       }
-    }
 
-    &__link {
-      width: 100%;
-      justify-content: center;
+      &__logo {
+        width: 137px;
+        height: $logoHeight;
+        z-index: 1;
+      }
+
+      &__button {
+        display: block;
+        z-index: 1;
+        background-color: transparent;
+        height: $logoHeight;
+      }
+
+      &__nav__wrapper {
+        position: absolute;
+        background: $background;
+        left: 0;
+        right: 0;
+        top: 100%;
+        gap: 20px;
+        flex-direction: column;
+        align-items: center;
+        padding-block: 20px;
+        border-top: 1px solid $lightOrange;
+        z-index: -1;
+        transform: translateY(-100%);
+        transition: transform 0.2s ease-in-out;
+
+        &.active {
+          transform: translateY(0);
+        }
+      }
+
+      &__link {
+        width: 100%;
+        justify-content: center;
+      }
     }
   }
 }

@@ -1,3 +1,5 @@
+@use '../../index.scss' as *;
+
 .home_page {
   display: flex;
   flex-direction: column;
@@ -6,7 +8,7 @@
   gap: 50px;
 
   &__h1 {
-    font-family: 'Lexend Deca', serif;
+    font-family: $lexendDeca;
     font-weight: bold;
     font-size: 58px;
     max-width: 684px;
@@ -14,18 +16,18 @@
     text-transform: capitalize;
 
     & span {
-      color: #f17900;
+      color: $orange;
     }
   }
-}
 
-@media (max-width: 420px) {
-  .home_page {
-    padding-block: 50px;
-    gap: 30px;
+  @media (max-width: $mobileWidth) {
+    & {
+      padding-block: 50px;
+      gap: 30px;
 
-    &__h1 {
-      font-size: 48px;
+      &__h1 {
+        font-size: 48px;
+      }
     }
   }
 }

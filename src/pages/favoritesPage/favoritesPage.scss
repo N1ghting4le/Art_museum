@@ -1,3 +1,5 @@
+@use '../../index.scss' as *;
+
 .favorites_page {
   display: flex;
   flex-direction: column;
@@ -10,20 +12,20 @@
     font-size: 58px;
     max-width: 484px;
     text-transform: capitalize;
-    font-family: 'Lexend Deca', serif;
+    font-family: $lexendDeca;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     & span {
-      color: #f17900;
+      color: $orange;
       display: flex;
       align-items: center;
     }
   }
 
   &__h2 {
-    font-family: 'Lexend Deca', serif;
+    font-family: $lexendDeca;
     font-weight: 400;
     font-size: 32px;
     text-align: center;
@@ -36,8 +38,8 @@
   }
 
   &__text {
-    font-family: 'Lexend Deca', serif;
-    color: #e0a449;
+    font-family: $lexendDeca;
+    color: $lightOrange;
     font-size: 16px;
   }
 
@@ -61,7 +63,7 @@
     height: 130px;
 
     & p {
-      font-family: 'Lexend Deca', serif;
+      font-family: $lexendDeca;
       line-height: 26px;
     }
   }
@@ -72,23 +74,23 @@
     object-fit: cover;
     object-position: top;
   }
-}
 
-@media (max-width: 420px) {
-  .favorites_page {
-    padding-block: 50px;
-    gap: 50px;
+  @media (max-width: $mobileWidth) {
+    & {
+      padding-block: 50px;
+      gap: 50px;
 
-    &__h1 {
-      font-size: 48px;
-    }
+      &__h1 {
+        font-size: 48px;
+      }
 
-    &__h2 {
-      font-size: 24px;
-    }
+      &__h2 {
+        font-size: 24px;
+      }
 
-    &__card {
-      height: auto;
+      &__card {
+        height: auto;
+      }
     }
   }
 }

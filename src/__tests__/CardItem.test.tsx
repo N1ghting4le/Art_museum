@@ -42,7 +42,7 @@ describe('CardItem Component', () => {
     const bookmarkBtn = screen.getByRole('button');
     fireEvent.click(bookmarkBtn);
 
-    expect(mockSetFavorites).toHaveBeenCalledWith(expect.anything());
+    expect(mockSetFavorites).toHaveBeenCalledWith(expect.any(Function));
   });
 
   test('test_display_spinner_on_loading', () => {

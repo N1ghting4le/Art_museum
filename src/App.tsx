@@ -13,7 +13,6 @@ import HomePage from 'pages/homePage/HomePage';
 import FavoritesPage from 'pages/favoritesPage/FavoritesPage';
 import ArtPage from 'pages/artPage/ArtPage';
 import Footer from 'components/footer/Footer';
-import './App.scss';
 
 type SearchFormContextType = {
   fields: Fields;

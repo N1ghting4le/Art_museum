@@ -1,3 +1,5 @@
+@use '../../index.scss' as *;
+
 .art_page {
   display: grid;
   place-items: center;
@@ -5,7 +7,7 @@
   color: #393939;
 
   & p {
-    font-family: 'Lexend Deca', serif;
+    font-family: $lexendDeca;
   }
 
   &__wrapper {
@@ -43,7 +45,7 @@
 
   &__artist {
     font-size: 24px;
-    color: #e0a449;
+    color: $lightOrange;
   }
 
   &__year {
@@ -56,11 +58,11 @@
     font-size: 16px;
 
     & span {
-      color: #e0a449;
+      color: $lightOrange;
     }
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: $mobileWidth) {
     & {
       padding-block: 50px;
     }

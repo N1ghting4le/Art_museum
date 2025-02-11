@@ -1,14 +1,10 @@
+@use '../../index.scss' as *;
+
 .sort_menu {
   display: flex;
   gap: 10px;
   align-items: center;
   padding-inline: 20px;
-
-  @media (max-width: 420px) {
-    & {
-      padding: 0;
-    }
-  }
 
   &__btn {
     padding: 5px;
@@ -32,7 +28,7 @@
     display: none;
     font-size: 16px;
     border-radius: 0 0 5px 5px;
-    border-top: 1px solid rgb(224, 164, 73);
+    border-top: 1px solid $lightOrange;
     background-color: #484848;
     color: #fff;
     cursor: pointer;
@@ -55,6 +51,12 @@
 
     &:hover {
       background-color: #343333;
+    }
+  }
+
+  @media (max-width: $mobileWidth) {
+    & {
+      padding: 0;
     }
   }
 }

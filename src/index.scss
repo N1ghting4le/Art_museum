@@ -1,12 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 
+$mobileWidth: 420px;
+$orange: #f17900;
+$lightOrange: #e0a449;
+$lexendDeca: 'Lexend Deca', serif;
+$inter: 'Inter', serif;
+
 * {
   margin: 0;
   border: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', serif;
+  font-family: $inter;
   -webkit-tap-highlight-color: transparent;
 }
 

@@ -1,3 +1,5 @@
+@use '../../index.scss' as *;
+
 .search_form {
   display: flex;
   flex-direction: column;
@@ -30,11 +32,11 @@
     display: flex;
     align-items: center;
     gap: 30px;
-  }
-}
 
-@media (max-width: 420px) {
-  .search_form__years_wrapper {
-    gap: 20px;
+    @media (max-width: $mobileWidth) {
+      & {
+        gap: 20px;
+      }
+    }
   }
 }
