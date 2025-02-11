@@ -130,16 +130,20 @@ const CardsList = () => {
         <Spinner />
       ) : (
         <ul className="cards_list">
-          {sortCards().map((card) => (
-            <CardItem
-              key={card.id}
-              card={card}
-              setCards={setCards}
-              baseSrc={baseSrc}
-              isInFavorites={favorites.some((item) => item.id === card.id)}
-              setFavorites={setFavorites}
-            />
-          ))}
+          {cards.length ? (
+            sortCards().map((card) => (
+              <CardItem
+                key={card.id}
+                card={card}
+                setCards={setCards}
+                baseSrc={baseSrc}
+                isInFavorites={favorites.some((item) => item.id === card.id)}
+                setFavorites={setFavorites}
+              />
+            ))
+          ) : (
+            <p>No items were found</p>
+          )}
         </ul>
       )}
       <Pagination
