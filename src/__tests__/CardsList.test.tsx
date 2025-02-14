@@ -15,10 +15,6 @@ jest.mock('hooks/query.hook', () => ({
 }));
 
 describe('CardsList Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   const mockUseCardsListContext = (overrides = {}) => {
     (useCardsListContext as jest.Mock).mockReturnValue({
       queryStr: '',

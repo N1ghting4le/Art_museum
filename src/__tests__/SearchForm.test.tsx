@@ -4,13 +4,10 @@ import SearchForm from 'components/searchForm/SearchForm';
 import { useSearchFormContext, useCardsListContext } from 'src/App';
 import useDebounce from 'hooks/debounce.hook';
 
-// Mock the context hooks
 jest.mock('src/App', () => ({
   useSearchFormContext: jest.fn(),
   useCardsListContext: jest.fn(),
 }));
-
-//jest.mock(, () => jest.fn((fn) => fn));
 
 jest.mock('hooks/debounce.hook', () => ({
   __esModule: true,

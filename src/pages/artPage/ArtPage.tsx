@@ -15,7 +15,7 @@ const params = [
 ] as const;
 
 type FullInfo = ShowCard & {
-  [val in (typeof params)[number]]?: string;
+  [val in (typeof params)[number]]: string | null;
 };
 
 const ArtPage = () => {
@@ -46,7 +46,7 @@ const ArtPage = () => {
         JSON.stringify(favorites.filter((item) => item.id !== +id))
       );
     } else if (info) {
-      const { dimensions, credit_line, ...card } = info;
+      const { place_of_origin, style_title, dimensions, credit_line, ...card } = info;
 
       setIsFavorite(true);
       sessionStorage.setItem('favorites', JSON.stringify([...favorites, card]));

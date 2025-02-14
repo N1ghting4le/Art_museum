@@ -26,9 +26,9 @@ export type SearchCard = Card & {
 };
 
 export type ShowCard = Card & {
-  artist_title: string;
-  date_end: number;
-  image_id: string;
+  artist_title: string | null;
+  date_end: number | null;
+  image_id: string | null;
 };
 
 export type Cards = (SearchCard | ShowCard)[];
@@ -83,11 +83,27 @@ const CardsList = () => {
       case 'title':
         return showCards.sort((a, b) => a.title.localeCompare(b.title));
       case 'artist':
-        return showCards.sort((a, b) =>
-          a.artist_title.localeCompare(b.artist_title)
-        );
+        return showCards.sort((a, b) => {
+          if (a.artist_title && b.artist_title) {
+            return a.artist_title.localeCompare(b.artist_title);
+          } else if (a.artist_title) {
+            return -1;
+          } else if (b.artist_title) {
+            return 1;
+          }
+          return 0;
+        });
       case 'year':
-        return showCards.sort((a, b) => a.date_end - b.date_end);
+        return showCards.sort((a, b) => {
+          if (a.date_end && b.date_end) {
+            return a.date_end - b.date_end
+          } else if (a.date_end) {
+            return -1;
+          } else if (b.date_end) {
+            return 1;
+          }
+          return 0;
+        });
       default:
         return showCards;
     }

@@ -79,7 +79,10 @@ const CardItem = ({
                     ? `${title.slice(0, 16).trimEnd()}...`
                     : title}
                 </p>
-                <p className="cards_list_item__artist">{artist_title}</p>
+                <p className="cards_list_item__artist">
+                  {artist_title && artist_title.length > 18
+                    ? `${artist_title.slice(0, 18).trimEnd()}...`
+                    : artist_title}</p>
                 <p className="cards_list_item__year">{date_end}</p>
               </div>
               <BookmarkBtn isFavorite={isFavorite} onClick={toggleIsFavorite} />
