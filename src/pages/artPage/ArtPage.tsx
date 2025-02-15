@@ -1,7 +1,7 @@
 import { baseUrl } from 'src/App';
 import { fieldsStr, ShowCard } from 'components/cardsList/CardsList';
 import { useParams } from 'react-router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useQuery from 'hooks/query.hook';
 import Spinner from 'components/spinner/Spinner';
 import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
@@ -20,13 +20,13 @@ type FullInfo = ShowCard & {
 
 const ArtPage = () => {
   const baseSrc = sessionStorage.getItem('baseSrc');
-  const favorites = JSON.parse(
-    sessionStorage.getItem('favorites') || '[]'
-  ) as ShowCard[];
+  const favorites = useRef<ShowCard[]>(
+    JSON.parse(sessionStorage.getItem('favorites') || '[]')
+  );
   const { isLoading, isError, query } = useQuery();
   const { id } = useParams() as { id: string };
   const [isFavorite, setIsFavorite] = useState(
-    favorites.some((item) => item.id === +id)
+    favorites.current.some((item) => item.id === +id)
   );
   const [info, setInfo] = useState<FullInfo | null>(null);
 
@@ -40,17 +40,16 @@ const ArtPage = () => {
 
   const toggleIsFavorite = () => {
     if (isFavorite) {
-      setIsFavorite(false);
-      sessionStorage.setItem(
-        'favorites',
-        JSON.stringify(favorites.filter((item) => item.id !== +id))
-      );
+      favorites.current = favorites.current.filter((item) => item.id !== +id);
     } else if (info) {
-      const { place_of_origin, style_title, dimensions, credit_line, ...card } = info;
+      const { place_of_origin, style_title, dimensions, credit_line, ...card } =
+        info;
 
-      setIsFavorite(true);
-      sessionStorage.setItem('favorites', JSON.stringify([...favorites, card]));
+      favorites.current.push(card);
     }
+
+    setIsFavorite(!isFavorite);
+    sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
   };
 
   return (

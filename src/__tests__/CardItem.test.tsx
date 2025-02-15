@@ -7,7 +7,6 @@ import useQuery from 'hooks/query.hook';
 
 const mockQuery = jest.fn();
 const mockSetCards = jest.fn();
-const mockSetFavorites = jest.fn();
 
 const card: ShowCard = {
   id: 1,
@@ -16,6 +15,8 @@ const card: ShowCard = {
   artist_title: 'Artist Name',
   date_end: 2023,
 };
+
+const favorites = { current: [] };
 
 jest.mock('hooks/query.hook');
 
@@ -33,16 +34,17 @@ describe('CardItem Component', () => {
           card={card}
           setCards={mockSetCards}
           baseSrc="http://example.com"
-          isInFavorites={false}
-          setFavorites={mockSetFavorites}
+          favorites={favorites}
         />
       </Router>
     );
 
     const bookmarkBtn = screen.getByRole('button');
-    fireEvent.click(bookmarkBtn);
 
-    expect(mockSetFavorites).toHaveBeenCalledWith(expect.any(Function));
+    fireEvent.click(bookmarkBtn);
+    expect(favorites.current).toHaveLength(1);
+    fireEvent.click(bookmarkBtn);
+    expect(favorites.current).toHaveLength(0);
   });
 
   test('test_display_spinner_on_loading', () => {
@@ -58,8 +60,7 @@ describe('CardItem Component', () => {
           card={card}
           setCards={mockSetCards}
           baseSrc="http://example.com"
-          isInFavorites={false}
-          setFavorites={mockSetFavorites}
+          favorites={favorites}
         />
       </Router>
     );
@@ -80,8 +81,7 @@ describe('CardItem Component', () => {
           card={card}
           setCards={mockSetCards}
           baseSrc="http://example.com"
-          isInFavorites={false}
-          setFavorites={mockSetFavorites}
+          favorites={favorites}
         />
       </Router>
     );

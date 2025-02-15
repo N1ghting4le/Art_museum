@@ -2,9 +2,10 @@ import { fieldsStr } from '../cardsList/CardsList';
 import {
   Dispatch,
   SetStateAction,
-  useEffect,
   useState,
+  useEffect,
   MouseEvent,
+  RefObject,
 } from 'react';
 import { SearchCard, ShowCard, Cards } from '../cardsList/CardsList';
 import { Link } from 'react-router-dom';
@@ -16,20 +17,15 @@ import './cardItem.scss';
 type Props = {
   card: SearchCard | ShowCard;
   setCards: Dispatch<SetStateAction<Cards>>;
-  baseSrc: string;
-  isInFavorites: boolean;
-  setFavorites: Dispatch<SetStateAction<ShowCard[]>>;
+  baseSrc: string | null;
+  favorites: RefObject<ShowCard[]>;
 };
 
-const CardItem = ({
-  card,
-  setCards,
-  baseSrc,
-  isInFavorites,
-  setFavorites,
-}: Props) => {
+const CardItem = ({ card, setCards, baseSrc, favorites }: Props) => {
   const { isLoading, isError, query } = useQuery();
-  const [isFavorite, setIsFavorite] = useState(isInFavorites);
+  const [isFavorite, setIsFavorite] = useState(
+    favorites.current.some((item) => item.id === card.id)
+  );
 
   useEffect(() => {
     if ('api_link' in card) {
@@ -47,14 +43,15 @@ const CardItem = ({
     e.preventDefault();
 
     if (isFavorite) {
-      setIsFavorite(false);
-      setFavorites((favorites) =>
-        favorites.filter((item) => item.id !== card.id)
+      favorites.current = favorites.current.filter(
+        (item) => item.id !== card.id
       );
     } else {
-      setIsFavorite(true);
-      setFavorites((favorites) => [...favorites, card as ShowCard]);
+      favorites.current.push(card as ShowCard);
     }
+
+    setIsFavorite(!isFavorite);
+    sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
   };
 
   return (
@@ -82,7 +79,8 @@ const CardItem = ({
                 <p className="cards_list_item__artist">
                   {artist_title && artist_title.length > 18
                     ? `${artist_title.slice(0, 18).trimEnd()}...`
-                    : artist_title}</p>
+                    : artist_title}
+                </p>
                 <p className="cards_list_item__year">{date_end}</p>
               </div>
               <BookmarkBtn isFavorite={isFavorite} onClick={toggleIsFavorite} />

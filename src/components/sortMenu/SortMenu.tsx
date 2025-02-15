@@ -1,9 +1,13 @@
 import { useState, Dispatch, SetStateAction } from 'react';
 import './sortMenu.scss';
 
+const sortParams = ['no sort', 'title', 'artist', 'year'] as const;
+
+export type SortParam = (typeof sortParams)[number];
+
 type Props = {
-  sortParam: string;
-  setSortParam: Dispatch<SetStateAction<string>>;
+  sortParam: SortParam;
+  setSortParam: Dispatch<SetStateAction<SortParam>>;
 };
 
 const SortMenu = ({ sortParam, setSortParam }: Props) => {
@@ -12,39 +16,22 @@ const SortMenu = ({ sortParam, setSortParam }: Props) => {
   return (
     <div className="sort_menu">
       <p>Sort by:</p>
-      <div style={{ position: 'relative' }}>
-        <div
-          onClick={() => setShowList(!showList)}
-          className={`sort_menu__btn ${showList ? 'active' : ''}`}
-        >
-          {sortParam}
-          <ul className={`sort_menu__params_list ${showList ? 'active' : ''}`}>
+      <div
+        onClick={() => setShowList(!showList)}
+        className={`sort_menu__btn ${showList ? 'active' : ''}`}
+      >
+        {sortParam}
+        <ul className={`sort_menu__params_list ${showList ? 'active' : ''}`}>
+          {sortParams.map((item) => (
             <li
-              onClick={() => setSortParam('no sort')}
+              key={item}
+              onClick={() => setSortParam(item)}
               className="sort_menu__list_item"
             >
-              no sort
+              {item}
             </li>
-            <li
-              onClick={() => setSortParam('title')}
-              className="sort_menu__list_item"
-            >
-              title
-            </li>
-            <li
-              onClick={() => setSortParam('artist')}
-              className="sort_menu__list_item"
-            >
-              artist
-            </li>
-            <li
-              onClick={() => setSortParam('year')}
-              className="sort_menu__list_item"
-            >
-              year
-            </li>
-          </ul>
-        </div>
+          ))}
+        </ul>
       </div>
     </div>
   );

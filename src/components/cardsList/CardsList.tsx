@@ -1,5 +1,5 @@
 import { baseUrl, useCardsListContext } from 'src/App';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useQuery from 'hooks/query.hook';
 import Spinner from '../spinner/Spinner';
 import CardItem from '../cardItem/CardItem';
@@ -35,7 +35,7 @@ export type Cards = (SearchCard | ShowCard)[];
 
 type ApiResponse = {
   pagination: Pagination;
-  data: SearchCard[] | ShowCard[];
+  data: Cards;
   config: {
     iiif_url: string;
     website_url: string;
@@ -59,10 +59,10 @@ const CardsList = () => {
   const [isInitial, setIsInitial] = useState(true);
   const [canSort, setCanSort] = useState(false);
   const { isLoading, isError, query } = useQuery();
-  const [favorites, setFavorites] = useState<ShowCard[]>(
+  const favorites = useRef<ShowCard[]>(
     JSON.parse(sessionStorage.getItem('favorites') || '[]')
   );
-  const baseSrc = sessionStorage.getItem('baseSrc') || '';
+  const baseSrc = sessionStorage.getItem('baseSrc');
 
   const fetchCards = () => {
     const url = `${baseUrl}/api/v1/artworks${queryStr ? '/search' : ''}?page=${currPage}&limit=5`;
@@ -96,7 +96,7 @@ const CardsList = () => {
       case 'year':
         return showCards.sort((a, b) => {
           if (a.date_end && b.date_end) {
-            return a.date_end - b.date_end
+            return a.date_end - b.date_end;
           } else if (a.date_end) {
             return -1;
           } else if (b.date_end) {
@@ -133,10 +133,6 @@ const CardsList = () => {
     setCanSort(cards.every((card) => 'image_id' in card));
   }, [cards]);
 
-  useEffect(() => {
-    sessionStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
-
   if (isError) return <p>Unable to load data</p>;
 
   return (
@@ -153,8 +149,7 @@ const CardsList = () => {
                 card={card}
                 setCards={setCards}
                 baseSrc={baseSrc}
-                isInFavorites={favorites.some((item) => item.id === card.id)}
-                setFavorites={setFavorites}
+                favorites={favorites}
               />
             ))
           ) : (

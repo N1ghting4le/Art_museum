@@ -3,11 +3,14 @@ import {
   createContext,
   useContext,
   useState,
+  useRef,
   Dispatch,
   SetStateAction,
+  RefObject,
 } from 'react';
 import { Fields } from 'components/searchForm/SearchForm';
 import { Cards } from 'components/cardsList/CardsList';
+import { SortParam } from 'components/sortMenu/SortMenu';
 import Header from 'components/header/Header';
 import HomePage from 'pages/homePage/HomePage';
 import FavoritesPage from 'pages/favoritesPage/FavoritesPage';
@@ -15,8 +18,8 @@ import ArtPage from 'pages/artPage/ArtPage';
 import Footer from 'components/footer/Footer';
 
 type SearchFormContextType = {
-  fields: Fields;
-  setFields: Dispatch<SetStateAction<Fields>>;
+  fields: RefObject<Fields>;
+  setQueryStr: Dispatch<SetStateAction<string>>;
 };
 
 type CardsListContextType = {
@@ -24,12 +27,11 @@ type CardsListContextType = {
   currPage: number;
   amountOfPages: number;
   cards: Cards;
-  sortParam: string;
-  setQueryStr: Dispatch<SetStateAction<string>>;
+  sortParam: SortParam;
   setCurrPage: Dispatch<SetStateAction<number>>;
   setAmountOfPages: Dispatch<SetStateAction<number>>;
   setCards: Dispatch<SetStateAction<Cards>>;
-  setSortParam: Dispatch<SetStateAction<string>>;
+  setSortParam: Dispatch<SetStateAction<SortParam>>;
 };
 
 export const baseUrl = 'https://api.artic.edu';
@@ -38,7 +40,7 @@ const SearchFormContext = createContext<SearchFormContextType | null>(null);
 const CardsListContext = createContext<CardsListContextType | null>(null);
 
 function App() {
-  const [fields, setFields] = useState<Fields>({
+  const fields = useRef<Fields>({
     title: '',
     artist_title: '',
     place_of_origin: '',
@@ -50,12 +52,12 @@ function App() {
   const [currPage, setCurrPage] = useState(1);
   const [amountOfPages, setAmountOfPages] = useState(1);
   const [cards, setCards] = useState<Cards>([]);
-  const [sortParam, setSortParam] = useState('no sort');
+  const [sortParam, setSortParam] = useState<SortParam>('no sort');
 
   return (
     <BrowserRouter>
       <Header />
-      <SearchFormContext.Provider value={{ fields, setFields }}>
+      <SearchFormContext.Provider value={{ fields, setQueryStr }}>
         <CardsListContext.Provider
           value={{
             queryStr,
@@ -63,7 +65,6 @@ function App() {
             amountOfPages,
             cards,
             sortParam,
-            setQueryStr,
             setCurrPage,
             setAmountOfPages,
             setCards,

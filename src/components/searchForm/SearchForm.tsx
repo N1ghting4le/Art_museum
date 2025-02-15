@@ -1,7 +1,13 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  RefObject,
+  useEffect,
+  useState,
+} from 'react';
 import { useFormikContext, Formik, Form } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import { useSearchFormContext, useCardsListContext } from 'src/App';
+import { useSearchFormContext } from 'src/App';
 import useDebounce from 'hooks/debounce.hook';
 import Schema from './schema';
 import './searchForm.scss';
@@ -17,10 +23,10 @@ export type Fields = {
 
 type Props = {
   setQueryStr: Dispatch<SetStateAction<string>>;
-  setFields: Dispatch<SetStateAction<Fields>>;
+  fields: RefObject<Fields>;
 };
 
-const AutoSubmitData = ({ setQueryStr, setFields }: Props) => {
+const AutoSubmitData = ({ setQueryStr, fields }: Props) => {
   const { values, isValid } = useFormikContext<Fields>();
   const [isInitial, setIsInitial] = useState(true);
 
@@ -51,20 +57,19 @@ const AutoSubmitData = ({ setQueryStr, setFields }: Props) => {
       );
     }
 
-    setFields(values);
+    fields.current = values;
   }, [values]);
 
   return null;
 };
 
 const SearchForm = () => {
-  const { fields, setFields } = useSearchFormContext();
-  const { setQueryStr } = useCardsListContext();
+  const { fields, setQueryStr } = useSearchFormContext();
   const debounce = useDebounce();
 
   return (
     <Formik
-      initialValues={fields}
+      initialValues={fields.current}
       validationSchema={toFormikValidationSchema(Schema)}
       validateOnMount
       onSubmit={(values, { setSubmitting }) => {
@@ -77,7 +82,7 @@ const SearchForm = () => {
 
         return (
           <Form className="search_form">
-            <div className="">
+            <div>
               <input
                 className={`search_form__input ${errors.title ? 'input_error' : ''}`}
                 onChange={debouncedChangeHandler}
@@ -90,7 +95,7 @@ const SearchForm = () => {
                 <p className="search_form__error">{errors.title}</p>
               )}
             </div>
-            <div className="">
+            <div>
               <input
                 className={`search_form__input ${errors.artist_title ? 'input_error' : ''}`}
                 onChange={debouncedChangeHandler}
@@ -103,7 +108,7 @@ const SearchForm = () => {
                 <p className="search_form__error">{errors.artist_title}</p>
               )}
             </div>
-            <div className="">
+            <div>
               <input
                 className={`search_form__input ${errors.place_of_origin ? 'input_error' : ''}`}
                 onChange={debouncedChangeHandler}
@@ -116,7 +121,7 @@ const SearchForm = () => {
                 <p className="search_form__error">{errors.place_of_origin}</p>
               )}
             </div>
-            <div className="">
+            <div>
               <input
                 className={`search_form__input ${errors.style_title ? 'input_error' : ''}`}
                 onChange={debouncedChangeHandler}
@@ -156,7 +161,7 @@ const SearchForm = () => {
                 <p className="search_form__error">{errors.end_year}</p>
               )}
             </div>
-            <AutoSubmitData setQueryStr={setQueryStr} setFields={setFields} />
+            <AutoSubmitData setQueryStr={setQueryStr} fields={fields} />
           </Form>
         );
       }}

@@ -1,12 +1,11 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SearchForm from 'components/searchForm/SearchForm';
-import { useSearchFormContext, useCardsListContext } from 'src/App';
+import { useSearchFormContext } from 'src/App';
 import useDebounce from 'hooks/debounce.hook';
 
 jest.mock('src/App', () => ({
   useSearchFormContext: jest.fn(),
-  useCardsListContext: jest.fn(),
 }));
 
 jest.mock('hooks/debounce.hook', () => ({
@@ -18,17 +17,15 @@ describe('SearchForm Component', () => {
   beforeEach(() => {
     (useSearchFormContext as jest.Mock).mockReturnValue({
       fields: {
-        title: 'Mona Lisa',
-        artist_title: 'Leonardo da Vinci',
-        place_of_origin: 'Italy',
-        style_title: 'Renaissance',
-        start_year: '1500',
-        end_year: '1519',
+        current: {
+          title: 'Mona Lisa',
+          artist_title: 'Leonardo da Vinci',
+          place_of_origin: 'Italy',
+          style_title: 'Renaissance',
+          start_year: '1500',
+          end_year: '1519',
+        },
       },
-      setFields: jest.fn(),
-    });
-
-    (useCardsListContext as jest.Mock).mockReturnValue({
       setQueryStr: jest.fn(),
     });
 
@@ -60,9 +57,7 @@ describe('SearchForm Component', () => {
     });
     fireEvent.blur(screen.getByPlaceholderText('Enter art title...'));
     await waitFor(() => {
-      expect(
-        screen.getByText(/Maximum length - 50 characters/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Maximum length/i)).toBeInTheDocument();
     });
   });
 
