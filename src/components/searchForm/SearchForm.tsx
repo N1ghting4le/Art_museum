@@ -8,18 +8,11 @@ import {
 import { useFormikContext, Formik, Form } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { useSearchFormContext } from 'src/App';
+import { textFields, yearFields } from './fields';
+import { Fields } from './schema';
 import useDebounce from 'hooks/debounce.hook';
 import Schema from './schema';
 import './searchForm.scss';
-
-export type Fields = {
-  title: string;
-  artist_title: string;
-  place_of_origin: string;
-  style_title: string;
-  start_year: string;
-  end_year: string;
-};
 
 type Props = {
   setQueryStr: Dispatch<SetStateAction<string>>;
@@ -82,83 +75,43 @@ const SearchForm = () => {
 
         return (
           <Form className="search_form">
-            <div>
-              <input
-                className={`search_form__input ${errors.title ? 'input_error' : ''}`}
-                onChange={debouncedChangeHandler}
-                onBlur={handleBlur}
-                name="title"
-                placeholder="Enter art title..."
-                defaultValue={initialValues.title}
-              />
-              {errors.title && (
-                <p className="search_form__error">{errors.title}</p>
-              )}
-            </div>
-            <div>
-              <input
-                className={`search_form__input ${errors.artist_title ? 'input_error' : ''}`}
-                onChange={debouncedChangeHandler}
-                onBlur={handleBlur}
-                name="artist_title"
-                placeholder="Enter artist..."
-                defaultValue={initialValues.artist_title}
-              />
-              {errors.artist_title && (
-                <p className="search_form__error">{errors.artist_title}</p>
-              )}
-            </div>
-            <div>
-              <input
-                className={`search_form__input ${errors.place_of_origin ? 'input_error' : ''}`}
-                onChange={debouncedChangeHandler}
-                onBlur={handleBlur}
-                name="place_of_origin"
-                placeholder="Enter place of origin..."
-                defaultValue={initialValues.place_of_origin}
-              />
-              {errors.place_of_origin && (
-                <p className="search_form__error">{errors.place_of_origin}</p>
-              )}
-            </div>
-            <div>
-              <input
-                className={`search_form__input ${errors.style_title ? 'input_error' : ''}`}
-                onChange={debouncedChangeHandler}
-                onBlur={handleBlur}
-                name="style_title"
-                placeholder="Enter style..."
-                defaultValue={initialValues.style_title}
-              />
-              {errors.style_title && (
-                <p className="search_form__error">{errors.style_title}</p>
-              )}
-            </div>
+            {textFields.map(({ name, placeholder }) => (
+              <div key={name}>
+                <input
+                  className={`search_form__input ${errors[name] ? 'input_error' : ''}`}
+                  onChange={debouncedChangeHandler}
+                  onBlur={handleBlur}
+                  name={name}
+                  placeholder={placeholder}
+                  defaultValue={initialValues[name]}
+                />
+                {errors[name] && (
+                  <p className="search_form__error">{errors[name]}</p>
+                )}
+              </div>
+            ))}
             <div>
               <div className="search_form__years_wrapper">
                 <p>Years:</p>
-                <input
-                  className={`search_form__input ${errors.start_year ? 'input_error' : ''}`}
-                  onChange={debouncedChangeHandler}
-                  onBlur={handleBlur}
-                  name="start_year"
-                  placeholder="From"
-                  defaultValue={initialValues.start_year}
-                />
-                <input
-                  className={`search_form__input ${errors.end_year ? 'input_error' : ''}`}
-                  onChange={debouncedChangeHandler}
-                  onBlur={handleBlur}
-                  name="end_year"
-                  placeholder="To"
-                  defaultValue={initialValues.end_year}
-                />
+                {yearFields.map(({ name, placeholder }) => (
+                  <input
+                    key={name}
+                    className={`search_form__input ${errors[name] ? 'input_error' : ''}`}
+                    onChange={debouncedChangeHandler}
+                    onBlur={handleBlur}
+                    name={name}
+                    placeholder={placeholder}
+                    defaultValue={initialValues[name]}
+                  />
+                ))}
               </div>
-              {errors.start_year && (
-                <p className="search_form__error">{errors.start_year}</p>
-              )}
-              {errors.end_year && (
-                <p className="search_form__error">{errors.end_year}</p>
+              {yearFields.map(
+                ({ name }) =>
+                  errors[name] && (
+                    <p key={name} className="search_form__error">
+                      {errors[name]}
+                    </p>
+                  )
               )}
             </div>
             <AutoSubmitData setQueryStr={setQueryStr} fields={fields} />

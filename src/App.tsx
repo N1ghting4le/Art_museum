@@ -8,7 +8,7 @@ import {
   SetStateAction,
   RefObject,
 } from 'react';
-import { Fields } from 'components/searchForm/SearchForm';
+import { Fields } from 'components/searchForm/schema';
 import { Cards } from 'components/cardsList/CardsList';
 import { SortParam } from 'components/sortMenu/SortMenu';
 import Header from 'components/header/Header';

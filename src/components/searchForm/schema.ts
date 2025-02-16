@@ -36,3 +36,5 @@ const Schema = z
   );
 
 export default Schema;
+
+export type Fields = Record<keyof z.infer<typeof Schema>, string>;
