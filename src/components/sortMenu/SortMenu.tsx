@@ -1,23 +1,24 @@
-import { useState, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, memo } from 'react';
+import { SortParam } from 'src/types/sortParam';
+import sortParams from 'src/constants/sortParams';
+import useSortMenu from 'src/hooks/sortMenu.hook';
 import './sortMenu.scss';
 
-const sortParams = ['no sort', 'title', 'artist', 'year'] as const;
-
-export type SortParam = (typeof sortParams)[number];
-
-type Props = {
+export type Props = {
   sortParam: SortParam;
   setSortParam: Dispatch<SetStateAction<SortParam>>;
 };
 
-const SortMenu = ({ sortParam, setSortParam }: Props) => {
-  const [showList, setShowList] = useState(false);
+const SortMenu = memo(({ sortParam, setSortParam }: Props) => {
+  const { showList, toggleShow, setParamByClick } = useSortMenu({
+    setSortParam,
+  });
 
   return (
     <div className="sort_menu">
       <p>Sort by:</p>
       <div
-        onClick={() => setShowList(!showList)}
+        onClick={toggleShow}
         className={`sort_menu__btn ${showList ? 'active' : ''}`}
       >
         {sortParam}
@@ -25,7 +26,7 @@ const SortMenu = ({ sortParam, setSortParam }: Props) => {
           {sortParams.map((item) => (
             <li
               key={item}
-              onClick={() => setSortParam(item)}
+              onClick={setParamByClick}
               className="sort_menu__list_item"
             >
               {item}
@@ -35,6 +36,6 @@ const SortMenu = ({ sortParam, setSortParam }: Props) => {
       </div>
     </div>
   );
-};
+});
 
 export default SortMenu;

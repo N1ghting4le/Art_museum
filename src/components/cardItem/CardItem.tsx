@@ -1,58 +1,24 @@
-import { fieldsStr } from '../cardsList/CardsList';
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  MouseEvent,
-  RefObject,
-} from 'react';
-import { SearchCard, ShowCard, Cards } from '../cardsList/CardsList';
+import { Dispatch, SetStateAction, RefObject, memo } from 'react';
+import { SearchCard, ShowCard, Cards } from 'src/types/cards';
 import { Link } from 'react-router-dom';
-import useQuery from 'hooks/query.hook';
+import useCardItem from 'src/hooks/cardItem.hook';
 import Spinner from '../spinner/Spinner';
 import BookmarkBtn from '../bookmarkBtn/BookmarkBtn';
 import './cardItem.scss';
 
-type Props = {
+export type Props = {
   card: SearchCard | ShowCard;
   setCards: Dispatch<SetStateAction<Cards>>;
   baseSrc: string | null;
   favorites: RefObject<ShowCard[]>;
 };
 
-const CardItem = ({ card, setCards, baseSrc, favorites }: Props) => {
-  const { isLoading, isError, query } = useQuery();
-  const [isFavorite, setIsFavorite] = useState(
-    favorites.current.some((item) => item.id === card.id)
-  );
-
-  useEffect(() => {
-    if ('api_link' in card) {
-      query<{ data: ShowCard }>(card.api_link + `?${fieldsStr}`).then(
-        ({ data }) => {
-          setCards((cards) =>
-            cards.map((card) => (card.id === data.id ? data : card))
-          );
-        }
-      );
-    }
-  }, [card]);
-
-  const toggleIsFavorite = (e: MouseEvent) => {
-    e.preventDefault();
-
-    if (isFavorite) {
-      favorites.current = favorites.current.filter(
-        (item) => item.id !== card.id
-      );
-    } else {
-      favorites.current.push(card as ShowCard);
-    }
-
-    setIsFavorite(!isFavorite);
-    sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
-  };
+const CardItem = memo(({ card, setCards, baseSrc, favorites }: Props) => {
+  const { isError, isLoading, isFavorite, toggleIsFavorite } = useCardItem({
+    card,
+    setCards,
+    favorites,
+  });
 
   return (
     <li>
@@ -90,6 +56,6 @@ const CardItem = ({ card, setCards, baseSrc, favorites }: Props) => {
       })()}
     </li>
   );
-};
+});
 
 export default CardItem;

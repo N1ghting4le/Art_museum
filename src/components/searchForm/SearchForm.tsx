@@ -1,16 +1,11 @@
-import {
-  Dispatch,
-  SetStateAction,
-  RefObject,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, RefObject, memo } from 'react';
 import { useFormikContext, Formik, Form } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { useSearchFormContext } from 'src/App';
 import { textFields, yearFields } from './fields';
 import { Fields } from './schema';
 import useDebounce from 'hooks/debounce.hook';
+import useUpdateEffect from 'src/hooks/updateEffect.hook';
 import Schema from './schema';
 import './searchForm.scss';
 
@@ -19,18 +14,13 @@ type Props = {
   fields: RefObject<Fields>;
 };
 
-const AutoSubmitData = ({ setQueryStr, fields }: Props) => {
+const AutoSubmitData = memo(({ setQueryStr, fields }: Props) => {
   const { values, isValid } = useFormikContext<Fields>();
-  const [isInitial, setIsInitial] = useState(true);
 
-  useEffect(() => {
-    setIsInitial(false);
-  }, []);
-
-  useEffect(() => {
+  useUpdateEffect(() => {
     if (Object.values(values).every((val) => !val)) {
       setQueryStr('');
-    } else if (isValid && !isInitial) {
+    } else if (isValid) {
       const { start_year, end_year, ...fields } = values;
       const entries = Object.entries(fields).filter((item) => item[1]);
       let index = entries.length;
@@ -54,9 +44,9 @@ const AutoSubmitData = ({ setQueryStr, fields }: Props) => {
   }, [values]);
 
   return null;
-};
+});
 
-const SearchForm = () => {
+const SearchForm = memo(() => {
   const { fields, setQueryStr } = useSearchFormContext();
   const debounce = useDebounce();
 
@@ -120,6 +110,6 @@ const SearchForm = () => {
       }}
     </Formik>
   );
-};
+});
 
 export default SearchForm;

@@ -1,24 +1,11 @@
-import { useState, MouseEvent } from 'react';
-import { ShowCard } from 'components/cardsList/CardsList';
 import { Link } from 'react-router-dom';
 import LargeBookmark from 'assets/bookmark-large.svg?react';
 import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
+import useFavoritesPage from 'src/hooks/favoritesPage.hook';
 import './favoritesPage.scss';
 
 const FavoritesPage = () => {
-  const [favorites, setFavorites] = useState<ShowCard[]>(
-    JSON.parse(sessionStorage.getItem('favorites') || '[]')
-  );
-  const baseSrc = sessionStorage.getItem('baseSrc');
-
-  const deleteFromFavorites = (e: MouseEvent, id: number) => {
-    e.preventDefault();
-
-    const updatedFavorites = favorites.filter((item) => item.id !== id);
-
-    setFavorites(updatedFavorites);
-    sessionStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  };
+  const { favorites, baseSrc, deleteFromFavorites } = useFavoritesPage();
 
   return (
     <main className="favorites_page">
@@ -60,7 +47,8 @@ const FavoritesPage = () => {
                     </div>
                     <BookmarkBtn
                       style={{ marginLeft: 'auto' }}
-                      onClick={(e) => deleteFromFavorites(e, id)}
+                      id={`${id}`}
+                      onClick={deleteFromFavorites}
                     />
                   </Link>
                 </li>

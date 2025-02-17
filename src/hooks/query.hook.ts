@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 const useQuery = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const query = <T>(url: string): Promise<T> => {
+  const query = useCallback(<T>(url: string): Promise<T> => {
     return new Promise(async (resolve, reject) => {
       try {
         setIsError(false);
@@ -32,7 +32,7 @@ const useQuery = () => {
         setIsLoading(false);
       }
     });
-  };
+  }, []);
 
   return { isLoading, isError, query };
 };

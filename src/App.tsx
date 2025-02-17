@@ -7,15 +7,18 @@ import {
   Dispatch,
   SetStateAction,
   RefObject,
+  lazy,
 } from 'react';
 import { Fields } from 'components/searchForm/schema';
-import { Cards } from 'components/cardsList/CardsList';
-import { SortParam } from 'components/sortMenu/SortMenu';
+import { Cards } from './types/cards';
+import { SortParam } from './types/sortParam';
 import Header from 'components/header/Header';
-import HomePage from 'pages/homePage/HomePage';
-import FavoritesPage from 'pages/favoritesPage/FavoritesPage';
-import ArtPage from 'pages/artPage/ArtPage';
 import Footer from 'components/footer/Footer';
+
+const HomePage = lazy(() => import('pages/homePage/HomePage'));
+const FavoritesPage = lazy(() => import('pages/favoritesPage/FavoritesPage'));
+const ArtPage = lazy(() => import('pages/artPage/ArtPage'));
+const Page404 = lazy(() => import('pages/page404/Page404'));
 
 type SearchFormContextType = {
   fields: RefObject<Fields>;
@@ -34,10 +37,15 @@ type CardsListContextType = {
   setSortParam: Dispatch<SetStateAction<SortParam>>;
 };
 
-export const baseUrl = 'https://api.artic.edu';
-
 const SearchFormContext = createContext<SearchFormContextType | null>(null);
 const CardsListContext = createContext<CardsListContextType | null>(null);
+
+const routes = [
+  ['/', <HomePage />],
+  ['/:id', <ArtPage />],
+  ['/favorites', <FavoritesPage />],
+  ['*', <Page404 />],
+] as const;
 
 function App() {
   const fields = useRef<Fields>({
@@ -72,9 +80,9 @@ function App() {
           }}
         >
           <Routes>
-            <Route index element={<HomePage />} />
-            <Route path=":id" element={<ArtPage />} />
-            <Route path="favorites" element={<FavoritesPage />} />
+            {routes.map(([path, el]) => (
+              <Route key={path} path={path} element={el} />
+            ))}
           </Routes>
         </CardsListContext.Provider>
       </SearchFormContext.Provider>

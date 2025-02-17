@@ -21,7 +21,7 @@ describe('CardsList Component', () => {
       currPage: 1,
       amountOfPages: 1,
       cards: [],
-      sortParam: '',
+      sortParam: 'no sort',
       setCurrPage: jest.fn(),
       setAmountOfPages: jest.fn(),
       setCards: jest.fn(),

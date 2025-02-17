@@ -1,56 +1,11 @@
-import { baseUrl } from 'src/App';
-import { fieldsStr, ShowCard } from 'components/cardsList/CardsList';
-import { useParams } from 'react-router';
-import { useState, useEffect, useRef } from 'react';
-import useQuery from 'hooks/query.hook';
 import Spinner from 'components/spinner/Spinner';
 import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
+import useArtPage from 'src/hooks/artPage.hook';
 import './artPage.scss';
 
-const params = [
-  'place_of_origin',
-  'style_title',
-  'dimensions',
-  'credit_line',
-] as const;
-
-type FullInfo = ShowCard & {
-  [val in (typeof params)[number]]: string | null;
-};
-
 const ArtPage = () => {
-  const baseSrc = sessionStorage.getItem('baseSrc');
-  const favorites = useRef<ShowCard[]>(
-    JSON.parse(sessionStorage.getItem('favorites') || '[]')
-  );
-  const { isLoading, isError, query } = useQuery();
-  const { id } = useParams() as { id: string };
-  const [isFavorite, setIsFavorite] = useState(
-    favorites.current.some((item) => item.id === +id)
-  );
-  const [info, setInfo] = useState<FullInfo | null>(null);
-
-  useEffect(() => {
-    query<{ data: FullInfo }>(
-      `${baseUrl}/api/v1/artworks/${id}?${fieldsStr},${params.join()}`
-    ).then((res) => {
-      setInfo(res.data);
-    });
-  }, []);
-
-  const toggleIsFavorite = () => {
-    if (isFavorite) {
-      favorites.current = favorites.current.filter((item) => item.id !== +id);
-    } else if (info) {
-      const { place_of_origin, style_title, dimensions, credit_line, ...card } =
-        info;
-
-      favorites.current.push(card);
-    }
-
-    setIsFavorite(!isFavorite);
-    sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
-  };
+  const { baseSrc, isError, isLoading, info, isFavorite, toggleIsFavorite } =
+    useArtPage();
 
   return (
     <main className="art_page">
@@ -68,7 +23,21 @@ const ArtPage = () => {
           dimensions,
           credit_line,
         } = info;
+
         const noInfo = 'No info';
+
+        const mainInfo = [
+          ['title', title],
+          ['artist', artist_title],
+          ['year', date_end],
+        ];
+
+        const addInfo = [
+          ['Style', style_title],
+          ['Place of origin', place_of_origin],
+          ['Dimensions', dimensions],
+          ['Credit line', credit_line],
+        ];
 
         return (
           <div className="art_page__wrapper">
@@ -86,24 +55,19 @@ const ArtPage = () => {
             </div>
             <div className="art_page__info_wrapper">
               <div className="art_page__main_info_wrapper">
-                <p className="art_page__title">{title}</p>
-                <p className="art_page__artist">{artist_title}</p>
-                <p className="art_page__year">{date_end}</p>
+                {mainInfo.map(([cl, info], i) => (
+                  <p key={i} className={`art_page__${cl}`}>
+                    {info}
+                  </p>
+                ))}
               </div>
               <div className="art_page__add_info_wrapper">
                 <p className="art_page__title">Overview</p>
-                <p className="art_page__add_info">
-                  <span>Style:</span> {style_title || noInfo}
-                </p>
-                <p className="art_page__add_info">
-                  <span>Place of origin:</span> {place_of_origin || noInfo}
-                </p>
-                <p className="art_page__add_info">
-                  <span>Dimensions:</span> {dimensions || noInfo}
-                </p>
-                <p className="art_page__add_info">
-                  <span>Credit line:</span> {credit_line || noInfo}
-                </p>
+                {addInfo.map(([descr, info], i) => (
+                  <p key={i} className="art_page__add_info">
+                    <span>{descr}:</span> {info || noInfo}
+                  </p>
+                ))}
               </div>
             </div>
           </div>

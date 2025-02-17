@@ -1,7 +1,7 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CardItem from 'components/cardItem/CardItem';
-import { ShowCard } from 'components/cardsList/CardsList';
+import { ShowCard } from 'src/types/cards';
 import { BrowserRouter as Router } from 'react-router-dom';
 import useQuery from 'hooks/query.hook';
 
