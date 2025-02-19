@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useCallback, useMemo } from 'react';
 import { ShowCard } from '@/types/cards';
 import { useCardsListContext } from '@/App';
 import useFetchCards from '@/api/api.hook';
@@ -17,18 +17,14 @@ const useCardsList = () => {
     setSortParam,
   } = useCardsListContext();
 
-  const [canSort, setCanSort] = useState(false);
-  const { isLoading, isError, fetchCards } = useFetchCards({
-    queryStr,
-    currPage,
-  });
+  const { isLoading, isError, fetchCards } = useFetchCards();
   const favorites = useRef<ShowCard[]>(
     JSON.parse(sessionStorage.getItem('favorites') || '[]')
   );
   const baseSrc = sessionStorage.getItem('baseSrc');
 
   const setOrUpdateCards = useCallback(() => {
-    fetchCards().then((res) => {
+    fetchCards(queryStr, currPage).then((res) => {
       sessionStorage.setItem('baseSrc', res.config.iiif_url);
       setAmountOfPages(res.pagination.total_pages);
       setCards(res.data);
@@ -41,19 +37,12 @@ const useCardsList = () => {
     }
   }, []);
 
-  useUpdateEffect(setOrUpdateCards, [currPage]);
+  useUpdateEffect(setOrUpdateCards, [currPage, queryStr]);
 
-  useUpdateEffect(() => {
-    if (currPage === 1) {
-      setOrUpdateCards();
-    } else {
-      setCurrPage(1);
-    }
-  }, [queryStr]);
-
-  useEffect(() => {
-    setCanSort(cards.every((card) => 'image_id' in card));
-  }, [cards]);
+  const canSort = useMemo(
+    () => cards.every((card) => 'image_id' in card),
+    [cards]
+  );
 
   const sortedCards = useMemo(() => {
     if (!canSort || sortParam === 'no sort') return cards;
@@ -86,7 +75,7 @@ const useCardsList = () => {
           return 0;
         });
     }
-  }, [canSort, sortParam, cards]);
+  }, [cards, canSort, sortParam]);
 
   return {
     isLoading,

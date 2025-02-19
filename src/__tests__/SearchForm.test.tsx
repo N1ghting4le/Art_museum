@@ -27,6 +27,7 @@ describe('SearchForm Component', () => {
         },
       },
       setQueryStr: jest.fn(),
+      setCurrPage: jest.fn(),
     });
 
     (useDebounce as jest.Mock).mockReturnValue((fn: Function) => fn);

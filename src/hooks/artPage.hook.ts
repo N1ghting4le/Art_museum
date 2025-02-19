@@ -7,7 +7,7 @@ import useApi from '@/api/api.hook';
 const useArtPage = () => {
   const baseSrc = sessionStorage.getItem('baseSrc');
   const { id } = useParams() as { id: string };
-  const { isLoading, isError, fetchFullInfo } = useApi({ id });
+  const { isLoading, isError, fetchFullInfo } = useApi();
   const favorites = useRef<ShowCard[]>(
     JSON.parse(sessionStorage.getItem('favorites') || '[]')
   );
@@ -17,7 +17,7 @@ const useArtPage = () => {
   const [info, setInfo] = useState<FullInfo | null>(null);
 
   useEffect(() => {
-    fetchFullInfo().then((res) => {
+    fetchFullInfo(id).then((res) => {
       setInfo(res.data);
     });
   }, []);

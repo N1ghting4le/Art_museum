@@ -1,26 +1,23 @@
 import { useState, useEffect, useCallback, MouseEvent } from 'react';
 import { Props } from '@/components/cardItem/CardItem';
 import { ShowCard } from '@/types/cards';
-import fieldsStr from '@/constants/fieldsStr';
-import useQuery from './query.hook';
+import useApi from '@/api/api.hook';
 
 type Args = Omit<Props, 'baseSrc'>;
 
 const useCardItem = ({ favorites, card, setCards }: Args) => {
-  const { isLoading, isError, query } = useQuery();
+  const { isLoading, isError, fetchSingleCard } = useApi();
   const [isFavorite, setIsFavorite] = useState(
     favorites.current.some((item) => item.id === card.id)
   );
 
   useEffect(() => {
     if ('api_link' in card) {
-      query<{ data: ShowCard }>(card.api_link + `?${fieldsStr}`).then(
-        ({ data }) => {
-          setCards((cards) =>
-            cards.map((card) => (card.id === data.id ? data : card))
-          );
-        }
-      );
+      fetchSingleCard(card.api_link).then(({ data }) => {
+        setCards((cards) =>
+          cards.map((card) => (card.id === data.id ? data : card))
+        );
+      });
     }
   }, [card]);
 

@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, RefObject, memo } from 'react';
+import { memo } from 'react';
 import { useFormikContext, Formik, Form } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import { useSearchFormContext } from '@/App';
+import { SearchFormContextType, useSearchFormContext } from '@/App';
 import { textFields, yearFields } from './fields';
 import { Fields } from './schema';
 import useDebounce from '@/hooks/debounce.hook';
@@ -9,45 +9,46 @@ import useUpdateEffect from '@/hooks/updateEffect.hook';
 import Schema from './schema';
 import './searchForm.scss';
 
-type Props = {
-  setQueryStr: Dispatch<SetStateAction<string>>;
-  fields: RefObject<Fields>;
-};
+const AutoSubmitData = memo(
+  ({ fields, setQueryStr, setCurrPage }: SearchFormContextType) => {
+    const { values, isValid } = useFormikContext<Fields>();
 
-const AutoSubmitData = memo(({ setQueryStr, fields }: Props) => {
-  const { values, isValid } = useFormikContext<Fields>();
+    useUpdateEffect(() => {
+      if (Object.values(values).every((val) => !val)) {
+        setQueryStr('');
+      } else if (isValid) {
+        const { start_year, end_year, ...fields } = values;
+        const entries = Object.entries(fields).filter((item) => item[1]);
+        let index = entries.length;
 
-  useUpdateEffect(() => {
-    if (Object.values(values).every((val) => !val)) {
-      setQueryStr('');
-    } else if (isValid) {
-      const { start_year, end_year, ...fields } = values;
-      const entries = Object.entries(fields).filter((item) => item[1]);
-      let index = entries.length;
+        setQueryStr(
+          entries.reduce(
+            (str, [key, val], i) =>
+              str + `&query[bool][must][${i}][match][${key}]=${val}`,
+            ''
+          ) +
+            (start_year
+              ? `&query[bool][must][${index++}][range][date_end][gte]=${start_year}`
+              : '') +
+            (end_year
+              ? `&query[bool][must][${index}][range][date_end][lte]=${end_year}`
+              : '')
+        );
+      }
 
-      setQueryStr(
-        entries.reduce(
-          (str, [key, val], i) =>
-            str + `&query[bool][must][${i}][match][${key}]=${val}`,
-          ''
-        ) +
-          (start_year
-            ? `&query[bool][must][${index++}][range][date_end][gte]=${start_year}`
-            : '') +
-          (end_year
-            ? `&query[bool][must][${index}][range][date_end][lte]=${end_year}`
-            : '')
-      );
-    }
+      if (isValid) {
+        setCurrPage(1);
+      }
 
-    fields.current = values;
-  }, [values]);
+      fields.current = values;
+    }, [values]);
 
-  return null;
-});
+    return null;
+  }
+);
 
 const SearchForm = () => {
-  const { fields, setQueryStr } = useSearchFormContext();
+  const { fields, setQueryStr, setCurrPage } = useSearchFormContext();
   const debounce = useDebounce();
 
   return (
@@ -104,7 +105,11 @@ const SearchForm = () => {
                   )
               )}
             </div>
-            <AutoSubmitData setQueryStr={setQueryStr} fields={fields} />
+            <AutoSubmitData
+              fields={fields}
+              setQueryStr={setQueryStr}
+              setCurrPage={setCurrPage}
+            />
           </Form>
         );
       }}

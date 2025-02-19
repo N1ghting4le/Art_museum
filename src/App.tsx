@@ -20,9 +20,10 @@ const FavoritesPage = lazy(() => import('@/pages/favoritesPage/FavoritesPage'));
 const ArtPage = lazy(() => import('@/pages/artPage/ArtPage'));
 const Page404 = lazy(() => import('@/pages/page404/Page404'));
 
-type SearchFormContextType = {
+export type SearchFormContextType = {
   fields: RefObject<Fields>;
   setQueryStr: Dispatch<SetStateAction<string>>;
+  setCurrPage: Dispatch<SetStateAction<number>>;
 };
 
 type CardsListContextType = {
@@ -65,7 +66,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <SearchFormContext.Provider value={{ fields, setQueryStr }}>
+      <SearchFormContext.Provider value={{ fields, setQueryStr, setCurrPage }}>
         <CardsListContext.Provider
           value={{
             queryStr,
