@@ -1,5 +1,5 @@
 import { useState, useCallback, MouseEvent } from 'react';
-import { ShowCard } from 'src/types/cards';
+import { ShowCard } from '@/types/cards';
 
 const useFavoritesPage = () => {
   const [favorites, setFavorites] = useState<ShowCard[]>(

@@ -1,6 +1,6 @@
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Pagination from 'components/pagination/Pagination';
+import Pagination from '@/components/pagination/Pagination';
 
 describe('Pagination Component', () => {
   const mockSetCurrPage = jest.fn();

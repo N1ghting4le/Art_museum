@@ -1,14 +1,14 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SearchForm from 'components/searchForm/SearchForm';
-import { useSearchFormContext } from 'src/App';
-import useDebounce from 'hooks/debounce.hook';
+import SearchForm from '@/components/searchForm/SearchForm';
+import { useSearchFormContext } from '@/App';
+import useDebounce from '@/hooks/debounce.hook';
 
-jest.mock('src/App', () => ({
+jest.mock('@/App', () => ({
   useSearchFormContext: jest.fn(),
 }));
 
-jest.mock('hooks/debounce.hook', () => ({
+jest.mock('@/hooks/debounce.hook', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

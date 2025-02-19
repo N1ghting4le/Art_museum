@@ -1,9 +1,9 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CardItem from 'components/cardItem/CardItem';
-import { ShowCard } from 'src/types/cards';
+import CardItem from '@/components/cardItem/CardItem';
+import { ShowCard } from '@/types/cards';
 import { BrowserRouter as Router } from 'react-router-dom';
-import useQuery from 'hooks/query.hook';
+import useQuery from '@/hooks/query.hook';
 
 const mockQuery = jest.fn();
 const mockSetCards = jest.fn();
@@ -18,7 +18,7 @@ const card: ShowCard = {
 
 const favorites = { current: [] };
 
-jest.mock('hooks/query.hook');
+jest.mock('@/hooks/query.hook');
 
 describe('CardItem Component', () => {
   test('test_toggle_favorite_status', () => {

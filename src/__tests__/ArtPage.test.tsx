@@ -1,10 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ArtPage from 'pages/artPage/ArtPage';
-import useQuery from 'hooks/query.hook';
+import ArtPage from '@/pages/artPage/ArtPage';
+import useQuery from '@/hooks/query.hook';
 import { useParams } from 'react-router';
 
-jest.mock('hooks/query.hook');
+jest.mock('@/hooks/query.hook');
 jest.mock('react-router', () => ({
   useParams: jest.fn(),
 }));

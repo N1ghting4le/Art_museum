@@ -1,5 +1,5 @@
 import { useCallback, useMemo, MouseEvent } from 'react';
-import { Props } from 'src/components/pagination/Pagination';
+import { Props } from '@/components/pagination/Pagination';
 
 const usePagination = ({ currPage, amountOfPages, setCurrPage }: Props) => {
   const getSequence = useCallback(function* (from: number, to: number) {

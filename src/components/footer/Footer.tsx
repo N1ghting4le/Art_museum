@@ -1,5 +1,5 @@
-import Logo from 'assets/museum-logo.svg?react';
-import ModsenLogo from 'assets/logo modsen-02 2.svg?react';
+import Logo from '@/assets/museum-logo.svg?react';
+import ModsenLogo from '@/assets/logo modsen-02 2.svg?react';
 import './footer.scss';
 
 const Footer = () => (

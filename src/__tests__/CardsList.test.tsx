@@ -1,15 +1,15 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CardsList from 'components/cardsList/CardsList';
-import { useCardsListContext } from 'src/App';
+import CardsList from '@/components/cardsList/CardsList';
+import { useCardsListContext } from '@/App';
 import { MemoryRouter } from 'react-router';
-import useQuery from 'hooks/query.hook';
+import useQuery from '@/hooks/query.hook';
 
-jest.mock('src/App', () => ({
+jest.mock('@/App', () => ({
   useCardsListContext: jest.fn(),
 }));
 
-jest.mock('hooks/query.hook', () => ({
+jest.mock('@/hooks/query.hook', () => ({
   __esModule: true,
   default: jest.fn(),
 }));

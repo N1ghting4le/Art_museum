@@ -1,16 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router';
-import { ShowCard } from 'src/types/cards';
-import { FullInfo } from 'src/types/fullInfo';
-import baseUrl from 'src/constants/baseUrl';
-import fieldsStr from 'src/constants/fieldsStr';
-import artParams from 'src/constants/artParams';
-import useQuery from './query.hook';
+import { ShowCard } from '@/types/cards';
+import { FullInfo } from '@/types/fullInfo';
+import useApi from '@/api/api.hook';
 
 const useArtPage = () => {
   const baseSrc = sessionStorage.getItem('baseSrc');
-  const { isLoading, isError, query } = useQuery();
   const { id } = useParams() as { id: string };
+  const { isLoading, isError, fetchFullInfo } = useApi({ id });
   const favorites = useRef<ShowCard[]>(
     JSON.parse(sessionStorage.getItem('favorites') || '[]')
   );
@@ -20,9 +17,7 @@ const useArtPage = () => {
   const [info, setInfo] = useState<FullInfo | null>(null);
 
   useEffect(() => {
-    query<{ data: FullInfo }>(
-      `${baseUrl}/api/v1/artworks/${id}?${fieldsStr},${artParams.join()}`
-    ).then((res) => {
+    fetchFullInfo().then((res) => {
       setInfo(res.data);
     });
   }, []);

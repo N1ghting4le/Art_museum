@@ -1,6 +1,6 @@
-import Spinner from 'components/spinner/Spinner';
-import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
-import useArtPage from 'src/hooks/artPage.hook';
+import Spinner from '@/components/spinner/Spinner';
+import BookmarkBtn from '@/components/bookmarkBtn/BookmarkBtn';
+import useArtPage from '@/hooks/artPage.hook';
 import './artPage.scss';
 
 const ArtPage = () => {

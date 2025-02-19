@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 const useDebounce = () => {
   const debounce = useCallback(function (func: Function, ms: number) {
     let timeout: ReturnType<typeof setTimeout>;
-    return function () {
+    return function (this: any) {
       clearTimeout(timeout);
-      timeout = setTimeout(() => func(...arguments), ms);
+      timeout = setTimeout(() => func.apply(this, arguments), ms);
     };
   }, []);
 

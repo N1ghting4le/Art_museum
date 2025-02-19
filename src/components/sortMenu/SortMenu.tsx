@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, memo } from 'react';
-import { SortParam } from 'src/types/sortParam';
-import sortParams from 'src/constants/sortParams';
-import useSortMenu from 'src/hooks/sortMenu.hook';
+import { SortParam } from '@/types/sortParam';
+import sortParams from '@/constants/sortParams';
+import useSortMenu from '@/hooks/sortMenu.hook';
 import './sortMenu.scss';
 
 export type Props = {

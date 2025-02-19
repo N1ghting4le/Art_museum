@@ -2,10 +2,10 @@ import { createRef } from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import '@testing-library/jest-dom';
-import Header from 'components/header/Header';
-import useBurgerMenu from 'hooks/burgerMenu.hook';
+import Header from '@/components/header/Header';
+import useBurgerMenu from '@/hooks/burgerMenu.hook';
 
-jest.mock('hooks/burgerMenu.hook');
+jest.mock('@/hooks/burgerMenu.hook');
 
 describe('Header Component', () => {
   let toggleMenuMock: jest.Mock;

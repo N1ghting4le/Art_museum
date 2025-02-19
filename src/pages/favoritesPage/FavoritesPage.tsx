@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import LargeBookmark from 'assets/bookmark-large.svg?react';
-import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
-import useFavoritesPage from 'src/hooks/favoritesPage.hook';
+import LargeBookmark from '@/assets/bookmark-large.svg?react';
+import BookmarkBtn from '@/components/bookmarkBtn/BookmarkBtn';
+import useFavoritesPage from '@/hooks/favoritesPage.hook';
 import './favoritesPage.scss';
 
 const FavoritesPage = () => {

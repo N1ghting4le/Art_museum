@@ -2,7 +2,7 @@ import Spinner from '../spinner/Spinner';
 import CardItem from '../cardItem/CardItem';
 import SortMenu from '../sortMenu/SortMenu';
 import Pagination from '../pagination/Pagination';
-import useCardsList from 'src/hooks/cardsList.hook';
+import useCardsList from '@/hooks/cardsList.hook';
 import './cardsList.scss';
 
 const CardsList = () => {
@@ -29,7 +29,7 @@ const CardsList = () => {
         <Spinner />
       ) : (
         <ul className="cards_list">
-          {sortedCards.length ? (
+          {sortedCards && sortedCards.length ? (
             sortedCards.map((card) => (
               <CardItem
                 key={card.id}

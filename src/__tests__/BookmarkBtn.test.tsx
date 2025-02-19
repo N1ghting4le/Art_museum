@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import BookmarkBtn from 'components/bookmarkBtn/BookmarkBtn';
+import BookmarkBtn from '@/components/bookmarkBtn/BookmarkBtn';
 
 describe('BookmarkBtn Component', () => {
   test('test_render_bookmark_btn', () => {

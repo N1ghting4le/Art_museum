@@ -1,9 +1,9 @@
-import useBurgerMenu from 'hooks/burgerMenu.hook';
 import { Link } from 'react-router-dom';
-import Logo from 'assets/museum-logo 2.svg?react';
-import Home from 'assets/home.svg?react';
-import Bookmark from 'assets/bookmark.svg?react';
-import BurgerMenuIcon from 'assets/burger-menu.svg?react';
+import Logo from '@/assets/museum-logo 2.svg?react';
+import Home from '@/assets/home.svg?react';
+import Bookmark from '@/assets/bookmark.svg?react';
+import BurgerMenuIcon from '@/assets/burger-menu.svg?react';
+import useBurgerMenu from '@/hooks/burgerMenu.hook';
 import './header.scss';
 
 const Header = () => {

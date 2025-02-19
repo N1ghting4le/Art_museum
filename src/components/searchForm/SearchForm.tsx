@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, RefObject, memo } from 'react';
 import { useFormikContext, Formik, Form } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import { useSearchFormContext } from 'src/App';
+import { useSearchFormContext } from '@/App';
 import { textFields, yearFields } from './fields';
 import { Fields } from './schema';
-import useDebounce from 'hooks/debounce.hook';
-import useUpdateEffect from 'src/hooks/updateEffect.hook';
+import useDebounce from '@/hooks/debounce.hook';
+import useUpdateEffect from '@/hooks/updateEffect.hook';
 import Schema from './schema';
 import './searchForm.scss';
 
@@ -46,7 +46,7 @@ const AutoSubmitData = memo(({ setQueryStr, fields }: Props) => {
   return null;
 });
 
-const SearchForm = memo(() => {
+const SearchForm = () => {
   const { fields, setQueryStr } = useSearchFormContext();
   const debounce = useDebounce();
 
@@ -110,6 +110,6 @@ const SearchForm = memo(() => {
       }}
     </Formik>
   );
-});
+};
 
 export default SearchForm;

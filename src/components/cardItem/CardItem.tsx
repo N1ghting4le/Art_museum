@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, RefObject, memo } from 'react';
-import { SearchCard, ShowCard, Cards } from 'src/types/cards';
+import { SearchCard, ShowCard, Cards } from '@/types/cards';
 import { Link } from 'react-router-dom';
-import useCardItem from 'src/hooks/cardItem.hook';
+import useCardItem from '@/hooks/cardItem.hook';
 import Spinner from '../spinner/Spinner';
 import BookmarkBtn from '../bookmarkBtn/BookmarkBtn';
 import './cardItem.scss';

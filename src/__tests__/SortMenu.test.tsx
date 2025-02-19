@@ -1,6 +1,6 @@
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SortMenu from 'components/sortMenu/SortMenu';
+import SortMenu from '@/components/sortMenu/SortMenu';
 
 describe('SortMenu Component', () => {
   const mockSetSortParam = jest.fn();

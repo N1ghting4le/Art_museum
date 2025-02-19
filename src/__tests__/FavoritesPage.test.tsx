@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router';
-import FavoritesPage from 'pages/favoritesPage/FavoritesPage';
+import FavoritesPage from '@/pages/favoritesPage/FavoritesPage';
 
 describe('FavoritesPage Component', () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, memo } from 'react';
-import RightArrow from 'assets/right-arrow.svg?react';
-import LeftArrow from 'assets/left-arrow.svg?react';
-import usePagination from 'src/hooks/pagination.hook';
+import RightArrow from '@/assets/right-arrow.svg?react';
+import LeftArrow from '@/assets/left-arrow.svg?react';
+import usePagination from '@/hooks/pagination.hook';
 import './pagination.scss';
 
 export type Props = {

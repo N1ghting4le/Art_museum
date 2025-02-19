@@ -9,16 +9,16 @@ import {
   RefObject,
   lazy,
 } from 'react';
-import { Fields } from 'components/searchForm/schema';
-import { Cards } from './types/cards';
-import { SortParam } from './types/sortParam';
-import Header from 'components/header/Header';
-import Footer from 'components/footer/Footer';
+import { Fields } from '@/components/searchForm/schema';
+import { Cards } from '@/types/cards';
+import { SortParam } from '@/types/sortParam';
+import Header from '@/components/header/Header';
+import Footer from '@/components/footer/Footer';
 
-const HomePage = lazy(() => import('pages/homePage/HomePage'));
-const FavoritesPage = lazy(() => import('pages/favoritesPage/FavoritesPage'));
-const ArtPage = lazy(() => import('pages/artPage/ArtPage'));
-const Page404 = lazy(() => import('pages/page404/Page404'));
+const HomePage = lazy(() => import('@/pages/homePage/HomePage'));
+const FavoritesPage = lazy(() => import('@/pages/favoritesPage/FavoritesPage'));
+const ArtPage = lazy(() => import('@/pages/artPage/ArtPage'));
+const Page404 = lazy(() => import('@/pages/page404/Page404'));
 
 type SearchFormContextType = {
   fields: RefObject<Fields>;

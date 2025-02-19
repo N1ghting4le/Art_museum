@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, MouseEvent } from 'react';
-import { Props } from 'src/components/cardItem/CardItem';
-import { ShowCard } from 'src/types/cards';
-import fieldsStr from 'src/constants/fieldsStr';
+import { Props } from '@/components/cardItem/CardItem';
+import { ShowCard } from '@/types/cards';
+import fieldsStr from '@/constants/fieldsStr';
 import useQuery from './query.hook';
 
 type Args = Omit<Props, 'baseSrc'>;

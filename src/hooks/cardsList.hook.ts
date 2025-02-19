@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { ShowCard } from 'src/types/cards';
-import { ApiResponse } from 'src/types/apiResponse';
-import { useCardsListContext } from 'src/App';
-import baseUrl from 'src/constants/baseUrl';
-import fieldsStr from 'src/constants/fieldsStr';
-import useQuery from './query.hook';
+import { ShowCard } from '@/types/cards';
+import { useCardsListContext } from '@/App';
+import useFetchCards from '@/api/api.hook';
 import useUpdateEffect from './updateEffect.hook';
 
 const useCardsList = () => {
@@ -21,33 +18,34 @@ const useCardsList = () => {
   } = useCardsListContext();
 
   const [canSort, setCanSort] = useState(false);
-  const { isLoading, isError, query } = useQuery();
+  const { isLoading, isError, fetchCards } = useFetchCards({
+    queryStr,
+    currPage,
+  });
   const favorites = useRef<ShowCard[]>(
     JSON.parse(sessionStorage.getItem('favorites') || '[]')
   );
   const baseSrc = sessionStorage.getItem('baseSrc');
 
-  const fetchCards = useCallback(() => {
-    const url = `${baseUrl}/api/v1/artworks${queryStr ? '/search' : ''}?page=${currPage}&limit=5`;
-
-    query<ApiResponse>(url + (queryStr || `&${fieldsStr}`)).then((res) => {
+  const setOrUpdateCards = useCallback(() => {
+    fetchCards().then((res) => {
       sessionStorage.setItem('baseSrc', res.config.iiif_url);
       setAmountOfPages(res.pagination.total_pages);
       setCards(res.data);
     });
-  }, [queryStr, currPage]);
+  }, [currPage, queryStr]);
 
   useEffect(() => {
     if (!cards.length) {
-      fetchCards();
+      setOrUpdateCards();
     }
   }, []);
 
-  useUpdateEffect(fetchCards, [currPage]);
+  useUpdateEffect(setOrUpdateCards, [currPage]);
 
   useUpdateEffect(() => {
     if (currPage === 1) {
-      fetchCards();
+      setOrUpdateCards();
     } else {
       setCurrPage(1);
     }

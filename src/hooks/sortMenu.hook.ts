@@ -1,6 +1,6 @@
 import { useState, useCallback, MouseEvent } from 'react';
-import { Props } from 'src/components/sortMenu/SortMenu';
-import { SortParam } from 'src/types/sortParam';
+import { Props } from '@/components/sortMenu/SortMenu';
+import { SortParam } from '@/types/sortParam';
 
 type Args = Omit<Props, 'sortParam'>;
 
