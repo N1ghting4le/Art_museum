@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, MouseEvent } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 import { Props } from '@/components/cardItem/CardItem';
 import { ShowCard } from '@/types/cards';
 import useApi from '@/api/api.hook';
@@ -21,23 +21,20 @@ const useCardItem = ({ favorites, card, setCards }: Args) => {
     }
   }, [card]);
 
-  const toggleIsFavorite = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault();
+  const toggleIsFavorite = (e: MouseEvent) => {
+    e.preventDefault();
 
-      if (isFavorite) {
-        favorites.current = favorites.current.filter(
-          (item) => item.id !== card.id
-        );
-      } else {
-        favorites.current.push(card as ShowCard);
-      }
+    if (isFavorite) {
+      favorites.current = favorites.current.filter(
+        (item) => item.id !== card.id
+      );
+    } else {
+      favorites.current.push(card as ShowCard);
+    }
 
-      setIsFavorite(!isFavorite);
-      sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
-    },
-    [isFavorite]
-  );
+    setIsFavorite(!isFavorite);
+    sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
+  };
 
   return { isError, isLoading, isFavorite, toggleIsFavorite };
 };

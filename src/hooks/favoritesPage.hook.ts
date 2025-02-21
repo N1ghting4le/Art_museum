@@ -1,4 +1,4 @@
-import { useState, useCallback, MouseEvent } from 'react';
+import { useState, MouseEvent } from 'react';
 import { ShowCard } from '@/types/cards';
 
 const useFavoritesPage = () => {
@@ -7,18 +7,15 @@ const useFavoritesPage = () => {
   );
   const baseSrc = sessionStorage.getItem('baseSrc');
 
-  const deleteFromFavorites = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault();
+  const deleteFromFavorites = (e: MouseEvent) => {
+    e.preventDefault();
 
-      const { id } = e.currentTarget;
-      const updatedFavorites = favorites.filter((item) => item.id !== +id);
+    const { id } = e.currentTarget;
+    const updatedFavorites = favorites.filter((item) => item.id !== +id);
 
-      setFavorites(updatedFavorites);
-      sessionStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    },
-    [favorites]
-  );
+    setFavorites(updatedFavorites);
+    sessionStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  };
 
   return { favorites, baseSrc, deleteFromFavorites };
 };

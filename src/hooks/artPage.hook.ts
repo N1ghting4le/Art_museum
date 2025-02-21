@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { ShowCard } from '@/types/cards';
 import { FullInfo } from '@/types/fullInfo';
@@ -22,7 +22,7 @@ const useArtPage = () => {
     });
   }, []);
 
-  const toggleIsFavorite = useCallback(() => {
+  const toggleIsFavorite = () => {
     if (isFavorite) {
       favorites.current = favorites.current.filter((item) => item.id !== +id);
     } else if (info) {
@@ -34,7 +34,7 @@ const useArtPage = () => {
 
     setIsFavorite(!isFavorite);
     sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
-  }, [isFavorite, info]);
+  };
 
   return { baseSrc, isError, isLoading, isFavorite, info, toggleIsFavorite };
 };
