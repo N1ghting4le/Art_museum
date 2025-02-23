@@ -16,8 +16,8 @@ const useCardsList = () => {
     setCards,
     setSortParam,
   } = useCardsListContext();
-
-  const { isLoading, isError, fetchCards } = useFetchCards();
+  console.log('render');
+  const { isLoading, isError, fetchCards, fetchSingleCard } = useFetchCards();
   const favorites = useRef<ShowCard[]>(
     JSON.parse(sessionStorage.getItem('favorites') || '[]')
   );
@@ -28,6 +28,20 @@ const useCardsList = () => {
       sessionStorage.setItem('baseSrc', res.config.iiif_url);
       setAmountOfPages(res.pagination.total_pages);
       setCards(res.data);
+
+      res.data.forEach((card) => {
+        if ('api_link' in card) {
+          fetchSingleCard(card.api_link)
+            .then(({ data }) => {
+              setCards((cards) =>
+                cards.map((card) => (card.id === data.id ? data : card))
+              );
+            })
+            .catch(() => {
+              setCards((cards) => cards.filter(({ id }) => id !== card.id));
+            });
+        }
+      });
     });
   }, [currPage, queryStr]);
 
@@ -83,7 +97,6 @@ const useCardsList = () => {
     sortParam,
     setSortParam,
     sortedCards,
-    setCards,
     favorites,
     baseSrc,
     currPage,

@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, RefObject, memo } from 'react';
-import { SearchCard, ShowCard, Cards } from '@/types/cards';
+import { RefObject, memo } from 'react';
+import { SearchCard, ShowCard } from '@/types/cards';
 import { Link } from 'react-router-dom';
 import useCardItem from '@/hooks/cardItem.hook';
 import Spinner from '../spinner/Spinner';
@@ -8,23 +8,20 @@ import './cardItem.scss';
 
 export type Props = {
   card: SearchCard | ShowCard;
-  setCards: Dispatch<SetStateAction<Cards>>;
   baseSrc: string | null;
   favorites: RefObject<ShowCard[]>;
 };
 
-const CardItem = memo(({ card, setCards, baseSrc, favorites }: Props) => {
-  const { isError, isLoading, isFavorite, toggleIsFavorite } = useCardItem({
+const CardItem = memo(({ card, baseSrc, favorites }: Props) => {
+  const { isFavorite, toggleIsFavorite } = useCardItem({
     card,
-    setCards,
     favorites,
   });
 
   return (
     <li>
       {(() => {
-        if (isLoading || !('image_id' in card)) return <Spinner />;
-        if (isError) return <p>Unable to load art</p>;
+        if ('api_link' in card) return <Spinner />;
 
         const { id, image_id, title, artist_title, date_end } = card;
 

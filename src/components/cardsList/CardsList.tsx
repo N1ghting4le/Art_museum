@@ -12,7 +12,6 @@ const CardsList = () => {
     sortParam,
     setSortParam,
     sortedCards,
-    setCards,
     baseSrc,
     favorites,
     currPage,
@@ -34,7 +33,6 @@ const CardsList = () => {
               <CardItem
                 key={card.id}
                 card={card}
-                setCards={setCards}
                 baseSrc={baseSrc}
                 favorites={favorites}
               />

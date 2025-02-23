@@ -3,10 +3,6 @@ import '@testing-library/jest-dom';
 import CardItem from '@/components/cardItem/CardItem';
 import { ShowCard } from '@/types/cards';
 import { BrowserRouter as Router } from 'react-router-dom';
-import useQuery from '@/hooks/query.hook';
-
-const mockQuery = jest.fn();
-const mockSetCards = jest.fn();
 
 const card: ShowCard = {
   id: 1,
@@ -22,17 +18,10 @@ jest.mock('@/hooks/query.hook');
 
 describe('CardItem Component', () => {
   test('test_toggle_favorite_status', () => {
-    (useQuery as jest.Mock).mockReturnValue({
-      isLoading: false,
-      isError: false,
-      query: mockQuery,
-    });
-
     render(
       <Router>
         <CardItem
           card={card}
-          setCards={mockSetCards}
           baseSrc="http://example.com"
           favorites={favorites}
         />
@@ -48,17 +37,10 @@ describe('CardItem Component', () => {
   });
 
   test('test_display_spinner_on_loading', () => {
-    (useQuery as jest.Mock).mockReturnValue({
-      isLoading: true,
-      isError: false,
-      query: mockQuery,
-    });
-
     const { container } = render(
       <Router>
         <CardItem
-          card={card}
-          setCards={mockSetCards}
+          card={{ ...card, api_link: 'http://example.com' }}
           baseSrc="http://example.com"
           favorites={favorites}
         />
@@ -68,24 +50,20 @@ describe('CardItem Component', () => {
     expect(container.querySelector('g')).toBeInTheDocument();
   });
 
-  test('test_display_error_message_on_load_failure', () => {
-    (useQuery as jest.Mock).mockReturnValue({
-      isLoading: false,
-      isError: true,
-      query: mockQuery,
-    });
-
+  test('test_display_card', () => {
     render(
       <Router>
         <CardItem
           card={card}
-          setCards={mockSetCards}
           baseSrc="http://example.com"
           favorites={favorites}
         />
       </Router>
     );
 
-    expect(screen.getByText('Unable to load art')).toBeInTheDocument();
+    expect(screen.getByText(card.title)).toBeInTheDocument();
+    expect(screen.getByText(card.artist_title!)).toBeInTheDocument();
+    expect(screen.getByText(card.date_end!)).toBeInTheDocument();
+    expect(screen.getByAltText(card.title)).toBeInTheDocument();
   });
 });

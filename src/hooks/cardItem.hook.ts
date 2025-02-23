@@ -1,25 +1,13 @@
-import { useState, useEffect, MouseEvent } from 'react';
+import { useState, MouseEvent } from 'react';
 import { Props } from '@/components/cardItem/CardItem';
 import { ShowCard } from '@/types/cards';
-import useApi from '@/api/api.hook';
 
 type Args = Omit<Props, 'baseSrc'>;
 
-const useCardItem = ({ favorites, card, setCards }: Args) => {
-  const { isLoading, isError, fetchSingleCard } = useApi();
+const useCardItem = ({ favorites, card }: Args) => {
   const [isFavorite, setIsFavorite] = useState(
     favorites.current.some((item) => item.id === card.id)
   );
-
-  useEffect(() => {
-    if ('api_link' in card) {
-      fetchSingleCard(card.api_link).then(({ data }) => {
-        setCards((cards) =>
-          cards.map((card) => (card.id === data.id ? data : card))
-        );
-      });
-    }
-  }, [card]);
 
   const toggleIsFavorite = (e: MouseEvent) => {
     e.preventDefault();
@@ -36,7 +24,7 @@ const useCardItem = ({ favorites, card, setCards }: Args) => {
     sessionStorage.setItem('favorites', JSON.stringify(favorites.current));
   };
 
-  return { isError, isLoading, isFavorite, toggleIsFavorite };
+  return { isFavorite, toggleIsFavorite };
 };
 
 export default useCardItem;
