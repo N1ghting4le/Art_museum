@@ -23,7 +23,6 @@ const Page404 = lazy(() => import('@/pages/page404/Page404'));
 export type SearchFormContextType = {
   fields: RefObject<Fields>;
   setQueryStr: Dispatch<SetStateAction<string>>;
-  setCurrPage: Dispatch<SetStateAction<number>>;
 };
 
 type CardsListContextType = {
@@ -66,7 +65,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <SearchFormContext.Provider value={{ fields, setQueryStr, setCurrPage }}>
+      <SearchFormContext.Provider value={{ fields, setQueryStr }}>
         <CardsListContext.Provider
           value={{
             queryStr,

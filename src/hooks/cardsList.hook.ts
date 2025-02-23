@@ -16,20 +16,22 @@ const useCardsList = () => {
     setCards,
     setSortParam,
   } = useCardsListContext();
-  console.log('render');
+
   const { isLoading, isError, fetchCards, fetchSingleCard } = useFetchCards();
   const favorites = useRef<ShowCard[]>(
     JSON.parse(sessionStorage.getItem('favorites') || '[]')
   );
   const baseSrc = sessionStorage.getItem('baseSrc');
 
-  const setOrUpdateCards = useCallback(() => {
-    fetchCards(queryStr, currPage).then((res) => {
-      sessionStorage.setItem('baseSrc', res.config.iiif_url);
-      setAmountOfPages(res.pagination.total_pages);
-      setCards(res.data);
+  const setOrUpdateCards = useCallback((query: string, page = 1) => {
+    fetchCards(query, page).then((res) => {
+      const { config, pagination, data } = res;
 
-      res.data.forEach((card) => {
+      sessionStorage.setItem('baseSrc', config.iiif_url);
+      setAmountOfPages(pagination.total_pages);
+      setCards(data);
+
+      data.forEach((card) => {
         if ('api_link' in card) {
           fetchSingleCard(card.api_link)
             .then(({ data }) => {
@@ -43,15 +45,24 @@ const useCardsList = () => {
         }
       });
     });
-  }, [currPage, queryStr]);
+  }, []);
 
   useEffect(() => {
     if (!cards.length) {
-      setOrUpdateCards();
+      setOrUpdateCards('');
     }
   }, []);
 
-  useUpdateEffect(setOrUpdateCards, [currPage, queryStr]);
+  useUpdateEffect(() => {
+    setCurrPage(1);
+    setOrUpdateCards(queryStr);
+  }, [queryStr]);
+
+  useUpdateEffect(() => {
+    if (!isLoading) {
+      setOrUpdateCards(queryStr, currPage);
+    }
+  }, [currPage]);
 
   const canSort = useMemo(
     () => cards.every((card) => 'image_id' in card),

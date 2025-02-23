@@ -10,7 +10,7 @@ import Schema from './schema';
 import './searchForm.scss';
 
 const AutoSubmitData = memo(
-  ({ fields, setQueryStr, setCurrPage }: SearchFormContextType) => {
+  ({ fields, setQueryStr }: SearchFormContextType) => {
     const { values, isValid } = useFormikContext<Fields>();
 
     useUpdateEffect(() => {
@@ -36,10 +36,6 @@ const AutoSubmitData = memo(
         );
       }
 
-      if (isValid) {
-        setCurrPage(1);
-      }
-
       fields.current = values;
     }, [values]);
 
@@ -48,7 +44,7 @@ const AutoSubmitData = memo(
 );
 
 const SearchForm = () => {
-  const { fields, setQueryStr, setCurrPage } = useSearchFormContext();
+  const { fields, setQueryStr } = useSearchFormContext();
   const debounce = useDebounce();
 
   return (
@@ -105,11 +101,7 @@ const SearchForm = () => {
                   )
               )}
             </div>
-            <AutoSubmitData
-              fields={fields}
-              setQueryStr={setQueryStr}
-              setCurrPage={setCurrPage}
-            />
+            <AutoSubmitData fields={fields} setQueryStr={setQueryStr} />
           </Form>
         );
       }}

@@ -7,11 +7,20 @@ function* getSequence(from: number, to: number) {
   }
 }
 
-const usePagination = ({ currPage, amountOfPages, setCurrPage }: Props) => {
-  const incrCurrPage = () => setCurrPage((page) => page + 1);
-  const decrCurrPage = () => setCurrPage((page) => page - 1);
+const usePagination = ({
+  currPage,
+  amountOfPages,
+  setCurrPage,
+  disabled,
+}: Props) => {
+  const incrCurrPage = () =>
+    disabled ? null : setCurrPage((page) => page + 1);
+  const decrCurrPage = () =>
+    disabled ? null : setCurrPage((page) => page - 1);
 
   const setCurrPageByClick = (e: MouseEvent) => {
+    if (disabled) return;
+
     const { textContent } = e.currentTarget;
 
     setCurrPage(+(textContent as string));

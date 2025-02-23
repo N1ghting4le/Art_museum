@@ -46,6 +46,7 @@ const CardsList = () => {
         currPage={currPage}
         setCurrPage={setCurrPage}
         amountOfPages={amountOfPages}
+        disabled={isLoading}
       />
     </div>
   );
