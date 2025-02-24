@@ -1,20 +1,18 @@
 import { useState, MouseEvent } from 'react';
-import { ShowCard } from '@/types/cards';
+import { useCardsListContext } from '@/App';
 
 const useFavoritesPage = () => {
-  const [favorites, setFavorites] = useState<ShowCard[]>(
-    JSON.parse(sessionStorage.getItem('favorites') || '[]')
-  );
-  const baseSrc = sessionStorage.getItem('baseSrc');
+  const { baseSrc, favorites: fav } = useCardsListContext();
+  const [favorites, setFavorites] = useState(fav.current);
 
   const deleteFromFavorites = (e: MouseEvent) => {
     e.preventDefault();
 
     const { id } = e.currentTarget;
-    const updatedFavorites = favorites.filter((item) => item.id !== +id);
+    fav.current = favorites.filter((item) => item.id !== +id);
 
-    setFavorites(updatedFavorites);
-    sessionStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    setFavorites(fav.current);
+    sessionStorage.setItem('favorites', JSON.stringify(fav.current));
   };
 
   return { favorites, baseSrc, deleteFromFavorites };

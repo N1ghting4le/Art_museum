@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { ShowCard } from '@/types/cards';
 import { useCardsListContext } from '@/App';
 import useFetchCards from '@/api/api.hook';
@@ -8,20 +8,14 @@ const useCardsList = () => {
   const {
     queryStr,
     currPage,
-    amountOfPages,
     cards,
     sortParam,
     setCurrPage,
     setAmountOfPages,
     setCards,
-    setSortParam,
   } = useCardsListContext();
 
   const { isLoading, isError, fetchCards, fetchSingleCard } = useFetchCards();
-  const favorites = useRef<ShowCard[]>(
-    JSON.parse(sessionStorage.getItem('favorites') || '[]')
-  );
-  const baseSrc = sessionStorage.getItem('baseSrc');
 
   const setOrUpdateCards = useCallback((query: string, page = 1) => {
     fetchCards(query, page).then((res) => {
@@ -105,14 +99,7 @@ const useCardsList = () => {
   return {
     isLoading,
     isError,
-    sortParam,
-    setSortParam,
     sortedCards,
-    favorites,
-    baseSrc,
-    currPage,
-    setCurrPage,
-    amountOfPages,
   };
 };
 

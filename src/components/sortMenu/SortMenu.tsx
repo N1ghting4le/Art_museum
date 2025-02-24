@@ -1,15 +1,10 @@
-import { Dispatch, SetStateAction, memo } from 'react';
-import { SortParam } from '@/types/sortParam';
 import sortParams from '@/constants/sortParams';
+import { useCardsListContext } from '@/App';
 import useSortMenu from '@/hooks/sortMenu.hook';
 import './sortMenu.scss';
 
-export type Props = {
-  sortParam: SortParam;
-  setSortParam: Dispatch<SetStateAction<SortParam>>;
-};
-
-const SortMenu = memo(({ sortParam, setSortParam }: Props) => {
+const SortMenu = () => {
+  const { sortParam, setSortParam } = useCardsListContext();
   const { showList, toggleShow, setParamByClick } = useSortMenu({
     setSortParam,
   });
@@ -36,6 +31,6 @@ const SortMenu = memo(({ sortParam, setSortParam }: Props) => {
       </div>
     </div>
   );
-});
+};
 
 export default SortMenu;

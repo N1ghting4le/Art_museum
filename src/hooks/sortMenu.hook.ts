@@ -1,8 +1,9 @@
-import { useState, MouseEvent } from 'react';
-import { Props } from '@/components/sortMenu/SortMenu';
+import { useState, MouseEvent, Dispatch, SetStateAction } from 'react';
 import { SortParam } from '@/types/sortParam';
 
-type Args = Omit<Props, 'sortParam'>;
+type Args = {
+  setSortParam: Dispatch<SetStateAction<SortParam>>;
+};
 
 const useSortMenu = ({ setSortParam }: Args) => {
   const [showList, setShowList] = useState(false);

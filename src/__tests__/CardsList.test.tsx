@@ -26,6 +26,8 @@ describe('CardsList Component', () => {
       setAmountOfPages: jest.fn(),
       setCards: jest.fn(),
       setSortParam: jest.fn(),
+      favorites: { current: [] },
+      baseSrc: 'http://example.com',
       ...overrides,
     });
   };

@@ -10,7 +10,7 @@ import {
   lazy,
 } from 'react';
 import { Fields } from '@/components/searchForm/schema';
-import { Cards } from '@/types/cards';
+import { Cards, ShowCard } from '@/types/cards';
 import { SortParam } from '@/types/sortParam';
 import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
@@ -35,6 +35,8 @@ type CardsListContextType = {
   setAmountOfPages: Dispatch<SetStateAction<number>>;
   setCards: Dispatch<SetStateAction<Cards>>;
   setSortParam: Dispatch<SetStateAction<SortParam>>;
+  baseSrc: string | null;
+  favorites: RefObject<ShowCard[]>;
 };
 
 const SearchFormContext = createContext<SearchFormContextType | null>(null);
@@ -61,6 +63,10 @@ function App() {
   const [amountOfPages, setAmountOfPages] = useState(1);
   const [cards, setCards] = useState<Cards>([]);
   const [sortParam, setSortParam] = useState<SortParam>('no sort');
+  const baseSrc = sessionStorage.getItem('baseSrc');
+  const favorites = useRef<ShowCard[]>(
+    JSON.parse(sessionStorage.getItem('favorites') || '[]')
+  );
 
   return (
     <BrowserRouter>
@@ -77,6 +83,8 @@ function App() {
             setAmountOfPages,
             setCards,
             setSortParam,
+            baseSrc,
+            favorites,
           }}
         >
           <Routes>

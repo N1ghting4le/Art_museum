@@ -3,6 +3,11 @@ import '@testing-library/jest-dom';
 import CardItem from '@/components/cardItem/CardItem';
 import { ShowCard } from '@/types/cards';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { useCardsListContext } from '@/App';
+
+jest.mock('@/App', () => ({
+  useCardsListContext: jest.fn(),
+}));
 
 const card: ShowCard = {
   id: 1,
@@ -12,19 +17,20 @@ const card: ShowCard = {
   date_end: 2023,
 };
 
-const favorites = { current: [] };
-
 jest.mock('@/hooks/query.hook');
 
+const favorites = { current: [] };
+
 describe('CardItem Component', () => {
+  (useCardsListContext as jest.Mock).mockReturnValue({
+    baseSrc: 'http://example.com',
+    favorites,
+  });
+
   test('test_toggle_favorite_status', () => {
     render(
       <Router>
-        <CardItem
-          card={card}
-          baseSrc="http://example.com"
-          favorites={favorites}
-        />
+        <CardItem card={card} />
       </Router>
     );
 
@@ -39,11 +45,7 @@ describe('CardItem Component', () => {
   test('test_display_spinner_on_loading', () => {
     const { container } = render(
       <Router>
-        <CardItem
-          card={{ ...card, api_link: 'http://example.com' }}
-          baseSrc="http://example.com"
-          favorites={favorites}
-        />
+        <CardItem card={{ ...card, api_link: 'http://example.com' }} />
       </Router>
     );
 
@@ -53,11 +55,7 @@ describe('CardItem Component', () => {
   test('test_display_card', () => {
     render(
       <Router>
-        <CardItem
-          card={card}
-          baseSrc="http://example.com"
-          favorites={favorites}
-        />
+        <CardItem card={card} />
       </Router>
     );
 

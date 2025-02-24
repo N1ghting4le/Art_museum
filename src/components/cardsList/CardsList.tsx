@@ -6,48 +6,25 @@ import useCardsList from '@/hooks/cardsList.hook';
 import './cardsList.scss';
 
 const CardsList = () => {
-  const {
-    isError,
-    isLoading,
-    sortParam,
-    setSortParam,
-    sortedCards,
-    baseSrc,
-    favorites,
-    currPage,
-    setCurrPage,
-    amountOfPages,
-  } = useCardsList();
+  const { isError, isLoading, sortedCards } = useCardsList();
 
   if (isError) return <p>Unable to load data</p>;
 
   return (
     <div>
-      <SortMenu sortParam={sortParam} setSortParam={setSortParam} />
+      <SortMenu />
       {isLoading ? (
         <Spinner />
       ) : (
         <ul className="cards_list">
           {sortedCards && sortedCards.length ? (
-            sortedCards.map((card) => (
-              <CardItem
-                key={card.id}
-                card={card}
-                baseSrc={baseSrc}
-                favorites={favorites}
-              />
-            ))
+            sortedCards.map((card) => <CardItem key={card.id} card={card} />)
           ) : (
             <p>No items were found</p>
           )}
         </ul>
       )}
-      <Pagination
-        currPage={currPage}
-        setCurrPage={setCurrPage}
-        amountOfPages={amountOfPages}
-        disabled={isLoading}
-      />
+      <Pagination disabled={isLoading} />
     </div>
   );
 };

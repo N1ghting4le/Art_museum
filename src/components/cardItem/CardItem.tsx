@@ -1,6 +1,6 @@
-import { RefObject, memo } from 'react';
 import { SearchCard, ShowCard } from '@/types/cards';
 import { Link } from 'react-router-dom';
+import { useCardsListContext } from '@/App';
 import useCardItem from '@/hooks/cardItem.hook';
 import Spinner from '../spinner/Spinner';
 import BookmarkBtn from '../bookmarkBtn/BookmarkBtn';
@@ -8,11 +8,10 @@ import './cardItem.scss';
 
 export type Props = {
   card: SearchCard | ShowCard;
-  baseSrc: string | null;
-  favorites: RefObject<ShowCard[]>;
 };
 
-const CardItem = memo(({ card, baseSrc, favorites }: Props) => {
+const CardItem = ({ card }: Props) => {
+  const { baseSrc, favorites } = useCardsListContext();
   const { isFavorite, toggleIsFavorite } = useCardItem({
     card,
     favorites,
@@ -53,6 +52,6 @@ const CardItem = memo(({ card, baseSrc, favorites }: Props) => {
       })()}
     </li>
   );
-});
+};
 
 export default CardItem;

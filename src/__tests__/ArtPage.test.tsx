@@ -3,13 +3,25 @@ import '@testing-library/jest-dom';
 import ArtPage from '@/pages/artPage/ArtPage';
 import useQuery from '@/hooks/query.hook';
 import { useParams } from 'react-router';
+import { useCardsListContext } from '@/App';
+import { ShowCard } from '@/types/cards';
+
+const favorites = { current: [] as ShowCard[] };
 
 jest.mock('@/hooks/query.hook');
 jest.mock('react-router', () => ({
   useParams: jest.fn(),
 }));
+jest.mock('@/App', () => ({
+  useCardsListContext: jest.fn(),
+}));
 
 describe('ArtPage Component', () => {
+  (useCardsListContext as jest.Mock).mockReturnValue({
+    baseSrc: 'http://example.com',
+    favorites,
+  });
+
   beforeEach(() => {
     sessionStorage.clear();
   });

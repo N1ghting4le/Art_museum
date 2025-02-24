@@ -1,5 +1,11 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, Dispatch, SetStateAction } from 'react';
 import { Props } from '@/components/pagination/Pagination';
+
+type Args = Props & {
+  currPage: number;
+  setCurrPage: Dispatch<SetStateAction<number>>;
+  amountOfPages: number;
+};
 
 function* getSequence(from: number, to: number) {
   for (let i = from; i <= to; i++) {
@@ -12,7 +18,7 @@ const usePagination = ({
   amountOfPages,
   setCurrPage,
   disabled,
-}: Props) => {
+}: Args) => {
   const incrCurrPage = () =>
     disabled ? null : setCurrPage((page) => page + 1);
   const decrCurrPage = () =>

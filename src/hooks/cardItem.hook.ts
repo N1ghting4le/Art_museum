@@ -1,8 +1,10 @@
-import { useState, MouseEvent } from 'react';
+import { useState, RefObject, MouseEvent } from 'react';
 import { Props } from '@/components/cardItem/CardItem';
 import { ShowCard } from '@/types/cards';
 
-type Args = Omit<Props, 'baseSrc'>;
+type Args = Props & {
+  favorites: RefObject<ShowCard[]>;
+};
 
 const useCardItem = ({ favorites, card }: Args) => {
   const [isFavorite, setIsFavorite] = useState(

@@ -1,16 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { ShowCard } from '@/types/cards';
 import { FullInfo } from '@/types/fullInfo';
+import { useCardsListContext } from '@/App';
 import useApi from '@/api/api.hook';
 
 const useArtPage = () => {
-  const baseSrc = sessionStorage.getItem('baseSrc');
+  const { baseSrc, favorites } = useCardsListContext();
   const { id } = useParams() as { id: string };
   const { isLoading, isError, fetchFullInfo } = useApi();
-  const favorites = useRef<ShowCard[]>(
-    JSON.parse(sessionStorage.getItem('favorites') || '[]')
-  );
   const [isFavorite, setIsFavorite] = useState(
     favorites.current.some((item) => item.id === +id)
   );
